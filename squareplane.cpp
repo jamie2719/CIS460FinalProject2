@@ -51,6 +51,7 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
 
 
     //how to convert p and normal to world space?
+    // multiply by inverse tranpose of model matrix
 
     return intersection(p, normal, t, this);
 }

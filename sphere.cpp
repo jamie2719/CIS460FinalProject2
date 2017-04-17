@@ -57,8 +57,10 @@ intersection Sphere::getIntersection(ray *inputRay) {
         normal = glm::normalize(p);
 
         //how to convert p and normal to world space?
-
-
+        //to do: multiply local space surface normal (normal) by the inverse-transpose of the model matrix
+        // to bring it into world space
+        // inverse: find it using glm::inverse
+        // transpose: make all the columns the rows of a new matrix
 
     }
 
