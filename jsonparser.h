@@ -2,6 +2,8 @@
 #define JSONPARSER_H
 
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QMap>
 #include <geometry.h>
 #include <sphere.h>
 #include <cube.h>
@@ -20,7 +22,15 @@ typedef struct camera_struct {
   float center_x, center_y, center_z;
 } camera_t;
 
+typedef struct material_struct {
+  QString name;
+  QJsonArray baseColor;
+  QString texture;
+  QString normalMap;
+} material_t;
+
 typedef struct scene_struct {
+    QMap<QString, material_t> *materialsMap;
     std::vector<Geometry> *geometries;
     camera_t *camera = (camera_t *) malloc(sizeof(camera_t));
 } scene_t;
@@ -30,8 +40,9 @@ class JsonParser
 public:
     std::vector<scene_t> *scenes;
     JsonParser();
-    void addGeomtry(QJsonObject shape, scene_t *scene);
-    void parse(const char* name);
+    void addMaterials(QJsonObject mat, scene_t *scene);
+    void addGeometry(QJsonObject shape, scene_t *scene);
+    scene_t parse(const char* name);
 };
 
 #endif // JSONPARSER_H
