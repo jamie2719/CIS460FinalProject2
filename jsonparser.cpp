@@ -9,7 +9,7 @@
 JsonParser::JsonParser()
 {
 }
-
+scene_t *sceneGlobal;
 void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
     QString name = mat["name"].toString();
     QJsonArray baseColor = mat["baseColor"].toArray();
@@ -117,10 +117,12 @@ scene_t JsonParser::parse(const char* name) {
     for (int i = 0; i < geom.size(); i++) {
         JsonParser::addGeometry(geom.at(i).toObject(), sceneTemp);
     }
-    scenes->push_back(*sceneTemp);
+    sceneGlobal = sceneTemp;
     return *sceneTemp;
 }
 
-// hello
+
+
+
 
 
