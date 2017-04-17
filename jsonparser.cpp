@@ -10,8 +10,25 @@ JsonParser::JsonParser()
 {
 }
 
-void addGeometry(QJsonObject shape, scene_t *scene) {
+void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
+    QString name = mat["name"].toString();
+    QJsonArray baseColor = mat["baseColor"].toArray();
+    QString texture = mat["texture"].toString();
+    QString normalMap = mat["normalMap"].toString();
+    material_t *newMaterial;
+    newMaterial->name = name;
+    newMaterial->baseColor = baseColor;
+    newMaterial->texture = texture;
+    newMaterial->normalMap = normalMap;
+    scene->materialsMap->insert(name, *newMaterial);
+}
+
+void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
     Geometry *geometry;
+    material_t shapeMaterial;
+    if (scene->materialsMap->contains(shape["material"].toString())) {
+        shapeMaterial = scene->materialsMap->value(shape["material"].toString());
+    }
     char *name;
     if(shape.contains("name")){
         name = shape["name"].toString().toLatin1().data();
@@ -62,7 +79,7 @@ void addGeometry(QJsonObject shape, scene_t *scene) {
     scene->geometries->push_back(*geometry);
 }
 
-void JsonParser::parse(const char* name) {
+scene_t JsonParser::parse(const char* name) {
     QString fileString;
     QFile file;
     file.setFileName(name);
@@ -91,12 +108,17 @@ void JsonParser::parse(const char* name) {
     sceneTemp->camera->height = (float) cam["height"].toDouble();
     sceneTemp->camera->near = 0.01;
     sceneTemp->camera->far = 1000;
+    QJsonArray materials = scene.value(QString("material")).toArray();
+    for (int i = 0; i < materials.size(); i++) {
+        JsonParser::addMaterials(materials.at(i).toObject(), sceneTemp);
+    }
 
     QJsonArray geom = scene.value(QString("geometry")).toArray();
     for (int i = 0; i < geom.size(); i++) {
-        addGeometry(geom.at(0).toObject(), sceneTemp);
+        JsonParser::addGeometry(geom.at(i).toObject(), sceneTemp);
     }
     scenes->push_back(*sceneTemp);
+    return *sceneTemp;
 }
 
 
