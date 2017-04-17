@@ -18,31 +18,8 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
     t = (glm::dot(((float)-1  * transformedRay.getOrigin()), plane_normal))/(glm::dot(transformedRay.getDirection(), plane_normal));
     p = transformedRay.getOrigin() + t * transformedRay.getDirection();
+    normal = plane_normal;
 
-    //calculate normal at intersection point p
-    float px = p[0];
-    float py = p[1];
-    float pz = p[2];
-    float max = -INFINITY;
-    if (fabs(px) > max) {
-        max = px;
-    }
-    if (fabs(py) > max) {
-        max = py;
-    }
-    if (fabs(pz) > max) {
-        max = pz;
-    }
-
-    if (max == px) {
-        normal = glm::vec4(1, 0, 0, 0);
-    }
-    else if (max == py) {
-        normal = glm::vec4(0, 1, 0, 0);
-    }
-    if (max == px) {
-        normal = glm::vec4(1, 0, 0, 0);
-    }
 
     //if point is not within boundaries of our square plane, there is no intersection
     if (p.operator [](0) < -.5 || p.operator [](1) < -.5 || p.operator [](0) > .5 || p.operator [](1) > .5) {
@@ -50,8 +27,12 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
     }
 
 
-    //how to convert p and normal to world space?
-    // multiply by inverse tranpose of model matrix
+    //convert p and normal to world space
+    glm::mat4 inverse = glm::inverse(transform_mat);
+    glm::mat4 inverse_transpose = glm::transpose(inverse);
+
+    p = p * inverse_transpose;
+    normal = normal * inverse_transpose;
 
     return intersection(p, normal, t, this);
 }

@@ -34,7 +34,7 @@ intersection Triangle::getIntersection(ray *inputRay) {
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
     t = (glm::dot(((float)-1  * transformedRay.getOrigin()), plane_normal))/(glm::dot(transformedRay.getDirection(), plane_normal));
     p = transformedRay.getOrigin() + t * transformedRay.getDirection();
-
+    normal = plane_normal;
 
     //check if point p is within bounds of triangle
     float s = area(this->a, this->b, this->c);
@@ -42,17 +42,21 @@ intersection Triangle::getIntersection(ray *inputRay) {
     float s2 = area(p, this->c, this->a)/s;
     float s3 = area(p, this->a, this->b)/s;
 
+    //if this doesnt work, use real calculation instead of hard coded plane normal
+    //    //calculate normal of intersection point
+    //    normal = cross(p1-p2, p3-p2);
 
-    //calculate normal of intersection point
-    //triangle in xy plane, looking down z axis (positive behind us) => (0, 0, 0) (1, 0, 0) (0, 1, 0)
-    //normal for this should be (0, 0, 1)
-    //b - a X c - a
 
     if (s1 > 1 || s1 < 0 || s2 > 1 || s2 > 0 || s3 > 1 || s3 < 0 || s1+s2+s3 != 1.0) {
         return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
     else {
-        //convert back to world space
+        //convert p and normal to world space
+        glm::mat4 inverse = glm::inverse(transform_mat);
+        glm::mat4 inverse_transpose = glm::transpose(inverse);
+
+        p = p * inverse_transpose;
+        normal = normal * inverse_transpose;
         return intersection(p, normal, t, this);
     }
 

@@ -15,7 +15,7 @@ void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
     QJsonArray baseColor = mat["baseColor"].toArray();
     QString texture = mat["texture"].toString();
     QString normalMap = mat["normalMap"].toString();
-    material_t *newMaterial;
+    material_t *newMaterial = new material_t;
     newMaterial->name = name;
     newMaterial->baseColor = baseColor;
     newMaterial->texture = texture;
@@ -24,7 +24,7 @@ void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
 }
 
 void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
-    Geometry *geometry;
+    Geometry geometry = Geometry();
     material_t shapeMaterial;
     if (scene->materialsMap->contains(shape["material"].toString())) {
         shapeMaterial = scene->materialsMap->value(shape["material"].toString());
@@ -66,17 +66,17 @@ void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
             tmat = tmat * rmat;
         }
         if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
-            *geometry = Sphere(name, tmat);
+            geometry = Sphere(name, tmat);
         } else if(QString::compare(shape["type"].toString(),("cube")) == 0) {
-            *geometry = Cube(name, tmat);
+            geometry = Cube(name, tmat);
         } else if(QString::compare(shape["type"].toString(),("triangle")) == 0) {
             //*geometry = Triangle(name, tmat);
         } else if(QString::compare(shape["type"].toString(),("square")) == 0) {
-            *geometry = SquarePlane(name, tmat);
+            geometry = SquarePlane(name, tmat);
         } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
-            *geometry = Mesh(name, tmat);
+            geometry = Mesh(name, tmat);
         }
-    scene->geometries->push_back(*geometry);
+    scene->geometries->push_back(geometry);
 }
 
 scene_t JsonParser::parse(const char* name) {
