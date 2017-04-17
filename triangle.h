@@ -1,0 +1,21 @@
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
+#include "geometry.h"
+
+class Triangle : public Geometry
+{
+public:
+    Triangle(char *name, glm::mat4 transform_mat, glm::vec4 a, glm::vec4 b, glm::vec4 c);
+
+    intersection getIntersection(ray *inputRay);
+
+private:
+
+    glm::mat4 transform_mat;
+    const char *name;
+    glm::vec4 a;
+    glm::vec4 b;
+    glm::vec4 c;
+};
+
+#endif // TRIANGLE_H
