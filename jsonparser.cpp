@@ -4,6 +4,7 @@
 #include <QJsonArray>
 #include <QString>
 #include <QFile>
+#include "ray.h"
 
 JsonParser::JsonParser()
 {
@@ -97,4 +98,5 @@ void JsonParser::parse(const char* name) {
     }
     scenes->push_back(*sceneTemp);
 }
+
 
