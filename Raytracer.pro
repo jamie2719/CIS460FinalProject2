@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     mesh.cpp \
     intersection.cpp \
     ray.cpp \
-    jsonparser.cpp
+    jsonparser.cpp \
+    material.cpp
 
 HEADERS  += mainwindow.h \
     geometry.h \
@@ -45,6 +46,7 @@ HEADERS  += mainwindow.h \
     intersection.h \
     ray.h \
     jsonparser.h \
-    la.h
+    la.h \
+    material.h
 
 FORMS    += mainwindow.ui

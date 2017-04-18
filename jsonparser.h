@@ -10,6 +10,7 @@
 #include <squareplane.h>
 #include <triangle.h>
 #include <mesh.h>
+#include <material.h>
 //#include <mat4.h>
 //#include <vec4.h>
 
@@ -22,15 +23,8 @@ typedef struct camera_struct {
   float center_x, center_y, center_z;
 } camera_t;
 
-typedef struct material_struct {
-  QString name;
-  QJsonArray baseColor;
-  QString texture;
-  QString normalMap;
-} material_t;
-
 typedef struct scene_struct {
-    QMap<QString, material_t> *materialsMap;
+    QMap<QString, Material*> *materialsMap;
     std::vector<Geometry> *geometries;
     camera_t *camera = (camera_t *) malloc(sizeof(camera_t));
 } scene_t;
