@@ -18,6 +18,7 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
     t = (glm::dot(((float)-1  * transformedRay.getOrigin()), plane_normal))/(glm::dot(transformedRay.getDirection(), plane_normal));
     p = transformedRay.getOrigin() + t * transformedRay.getDirection();
+    normal = plane_normal;
 
     //calculate normal at intersection point p
     float px = p[0];
@@ -50,8 +51,12 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
     }
 
 
-    //how to convert p and normal to world space?
-    // multiply by inverse tranpose of model matrix
+    //convert p and normal to world space
+    glm::mat4 inverse = glm::inverse(transform_mat);
+    glm::mat4 inverse_transpose = glm::transpose(inverse);
+
+    p = p * inverse_transpose;
+    normal = normal * inverse_transpose;
 
 
 

@@ -34,8 +34,8 @@ SOURCES += main.cpp\
     intersection.cpp \
     ray.cpp \
     jsonparser.cpp \
-    mygl.cpp \
-    camera.cpp
+    camera.cpp \
+    material.cpp \
 
 HEADERS  += mainwindow.h \
     geometry.h \
@@ -48,6 +48,7 @@ HEADERS  += mainwindow.h \
     ray.h \
     jsonparser.h \
     la.h \
-    camera.h
+    camera.h \
+    material.h
 
 FORMS    += mainwindow.ui
