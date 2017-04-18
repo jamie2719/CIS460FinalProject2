@@ -53,6 +53,7 @@ intersection Triangle::getIntersection(ray *inputRay) {
     }
     else {
         //convert back to world space
+
         return intersection(p, normal, t, this);
     }
 

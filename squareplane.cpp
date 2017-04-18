@@ -40,7 +40,7 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
     else if (max == py) {
         normal = glm::vec4(0, 1, 0, 0);
     }
-    if (max == px) {
+    if (max == px) { // should this be pz?
         normal = glm::vec4(1, 0, 0, 0);
     }
 
@@ -52,6 +52,8 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
 
     //how to convert p and normal to world space?
     // multiply by inverse tranpose of model matrix
+
+
 
     return intersection(p, normal, t, this);
 }
