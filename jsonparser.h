@@ -32,11 +32,11 @@ typedef struct scene_struct {
 class JsonParser
 {
 public:
-    std::vector<scene_t> *scenes;
     JsonParser();
     void addMaterials(QJsonObject mat, scene_t *scene);
     void addGeometry(QJsonObject shape, scene_t *scene);
     scene_t parse(const char* name);
+    ray rayCast(float x, float y);
 };
 
 #endif // JSONPARSER_H

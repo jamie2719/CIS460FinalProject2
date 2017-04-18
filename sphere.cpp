@@ -56,10 +56,11 @@ intersection Sphere::getIntersection(ray *inputRay) {
         p = transformedRay.getOrigin() + t * transformedRay.getDirection();
         normal = glm::normalize(p);
 
-        //how to convert p and normal to world space?
+        glm::mat4 inverse = glm::inverse(transform_mat);
+        glm::mat4 inverse_transpose = glm::transpose(inverse);
 
-
-
+        p = p * inverse_transpose;
+        normal = normal * inverse_transpose;
     }
 
     return intersection(p, normal, t, this);

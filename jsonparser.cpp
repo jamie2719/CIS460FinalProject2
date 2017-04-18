@@ -9,7 +9,7 @@
 JsonParser::JsonParser()
 {
 }
-
+scene_t *sceneGlobal;
 void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
     char* type = mat["type"].toString().toLatin1().data();
     QString key = mat["name"].toString();
@@ -56,6 +56,21 @@ void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
 void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
     Geometry *geometry;
     Material *shapeMaterial;
+    QString name = mat["name"].toString();
+    QJsonArray baseColor = mat["baseColor"].toArray();
+    QString texture = mat["texture"].toString();
+    QString normalMap = mat["normalMap"].toString();
+    material_t *newMaterial = new material_t;
+    newMaterial->name = name;
+    newMaterial->baseColor = baseColor;
+    newMaterial->texture = texture;
+    newMaterial->normalMap = normalMap;
+    scene->materialsMap->insert(name, *newMaterial);
+}
+
+void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
+    Geometry geometry = Geometry();
+    material_t shapeMaterial;
     if (scene->materialsMap->contains(shape["material"].toString())) {
         shapeMaterial = scene->materialsMap->value(shape["material"].toString());
     }
@@ -103,8 +118,12 @@ void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
             //*geometry = SquarePlane(name, tmat, shapeMaterial);
         } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
             //*geometry = Mesh(name, tmat, shapeMaterial);
+        } else if(QString::compare(shape["type"].toString(),("squarePlane"))
+            //*geometry = SquarePlane(name, tmat, shapeMaterial);
+        } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
+            //*geometry = Mesh(name, tmat, shapeMaterial);
         }
-    //scene->geometries->push_back(*geometry);
+        // scene->geometries->push_back(geometry);
 }
 
 scene_t JsonParser::parse(const char* name) {
@@ -145,10 +164,12 @@ scene_t JsonParser::parse(const char* name) {
     for (int i = 0; i < geom.size(); i++) {
         JsonParser::addGeometry(geom.at(i).toObject(), sceneTemp);
     }
-    scenes->push_back(*sceneTemp);
+    sceneGlobal = sceneTemp;
     return *sceneTemp;
 }
 
-// hello
+
+
+
 
 

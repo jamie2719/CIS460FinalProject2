@@ -13,6 +13,7 @@ public:
 
 private:
     glm::mat4 transform_mat;
+    //Material material;
 };
 
 
