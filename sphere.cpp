@@ -1,9 +1,11 @@
 #include "sphere.h"
 
 
-Sphere::Sphere(char *name, glm::mat4 transform_mat)
+Sphere::Sphere(char *name, glm::mat4 transform_mat, Material material)
 {
     this->transform_mat = transform_mat;
+    this->name = name;
+    this->material = material;
 }
 
 

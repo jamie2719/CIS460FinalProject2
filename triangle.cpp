@@ -1,12 +1,13 @@
 #include "triangle.h"
 
-Triangle::Triangle(char *name, glm::mat4 transform_mat, glm::vec4 a, glm::vec4 b, glm::vec4 c)
+Triangle::Triangle(char *name, glm::mat4 transform_mat, Material material, glm::vec4 a, glm::vec4 b, glm::vec4 c)
 {
     this->transform_mat = transform_mat;
     this->name = name;
     this->a = a;
     this->b = b;
     this->c = c;
+    this->material = material;
 }
 
 //cross product of 2 vec4s

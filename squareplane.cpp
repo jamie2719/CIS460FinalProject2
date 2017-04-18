@@ -1,9 +1,10 @@
 #include "squareplane.h"
 
-SquarePlane::SquarePlane(char *name, glm::mat4 transform_mat)
+SquarePlane::SquarePlane(char *name, glm::mat4 transform_mat, Material material)
 {
     this->transform_mat = transform_mat;
     this->name = name;
+    this->material = material;
 }
 
 

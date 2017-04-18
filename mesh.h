@@ -5,13 +5,14 @@
 class Mesh : public Geometry
 {
 public:
-    Mesh(char *name, glm::mat4 transform_mat);
+    Mesh(char *name, glm::mat4 transform_mat, Material material);
 
-    intersection getIntersection(ray *ray);
+    virtual intersection getIntersection(ray *ray);
 
 private:
     glm::mat4 transform_mat;
     const char *name;
+    Material material;
 
 
 };
