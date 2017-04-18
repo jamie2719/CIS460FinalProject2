@@ -12,3 +12,27 @@ Material::Material(char* type, char* name, int r, int g, int b, char* texture, Q
     this->emissive = emissive;
 }
 
+Material::getType() {
+    return this->type;
+}
+Material::getName() {
+    return this->name;
+}
+Material::getR() {
+    return this->r;
+}
+Material::getG() {
+    return this->g;
+}
+Material::getB() {
+    return this->b;
+}
+Material::getTexture(){
+    return this->texture;
+}
+Material::getNormal() {
+    return this->normal;
+}
+Material::isEmissive() {
+    return this->emissive;
+}
