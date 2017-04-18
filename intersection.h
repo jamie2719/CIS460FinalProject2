@@ -16,10 +16,10 @@
 
 class Geometry;
 
-class intersection
+class Intersection
 {
 public:
-    intersection(glm::vec4 pointOfIntersection, glm::vec4 surfaceNormal, float t, Geometry *geometry);
+    Intersection(glm::vec4 pointOfIntersection, glm::vec4 surfaceNormal, float t, Geometry *geometry);
 
 private:
     glm::vec4 pointOfIntersection; // should take the form of (x, y, z, 1)

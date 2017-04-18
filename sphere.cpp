@@ -1,15 +1,18 @@
 #include "sphere.h"
 
 
-Sphere::Sphere(char *name, glm::mat4 transform_mat, Material material)
+Sphere::Sphere(char *name, glm::mat4 transform_mat, Material *material)
 {
     this->transform_mat = transform_mat;
     this->name = name;
     this->material = material;
 }
 
+Material *Sphere::getMaterial() {
+    return this->material;
+}
 
-intersection Sphere::getIntersection(ray *inputRay) {
+Intersection Sphere::getIntersection(ray *inputRay) {
     //The Sphere should have a radius of 0.5 and should be centered at the origin.
     //center = (0, 0, 0)
     //radius = .5
@@ -36,7 +39,7 @@ intersection Sphere::getIntersection(ray *inputRay) {
 
     float disc = pow(b, 2) - 4 * a * c;
     if (disc < 0) {
-        return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+        return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
     else {
         float t0 = b * -1 - (sqrtf(disc))/(2 * a);
@@ -65,6 +68,6 @@ intersection Sphere::getIntersection(ray *inputRay) {
         normal = normal * inverse_transpose;
     }
 
-    return intersection(p, normal, t, this);
+    return Intersection(p, normal, t, this);
 
 }

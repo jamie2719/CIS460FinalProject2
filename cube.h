@@ -5,14 +5,15 @@
 class Cube : public Geometry
 {
 public:
-    Cube(char *name, glm::mat4 transform_mat, Material material);
+    Cube(char *name, glm::mat4 transform_mat, Material *material);
 
-    virtual intersection getIntersection(ray *inputRay);
+    virtual Intersection getIntersection(ray *inputRay);
 
+    virtual Material *getMaterial();
 private:
     glm::mat4 transform_mat;
     const char* name;
-    Material material;
+    Material *material;
 };
 
 #endif // CUBE_H

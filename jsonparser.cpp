@@ -55,7 +55,7 @@ void JsonParser::addMaterials(QJsonObject mat, scene_t *scene) {
 
 void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
     Geometry geometry = Geometry();
-    material_t shapeMaterial;
+    Material *shapeMaterial;
     if (scene->materialsMap->contains(shape["material"].toString())) {
         shapeMaterial = scene->materialsMap->value(shape["material"].toString());
     }
@@ -94,19 +94,22 @@ void JsonParser::addGeometry(QJsonObject shape, scene_t *scene) {
             tmat = tmat * rmat;
         }
         if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
-            //*geometry = Sphere(name, tmat, shapeMaterial);
+            geometry = Sphere(name, tmat, shapeMaterial);
         } else if(QString::compare(shape["type"].toString(),("cube")) == 0) {
-            //*geometry = Cube(name, tmat, shapeMaterial);
+            geometry = Cube(name, tmat, shapeMaterial);
         } else if(QString::compare(shape["type"].toString(),("triangle")) == 0) {
-            //*geometry = Triangle(name, tmat, shapeMaterial);
+            //geometry = Triangle(name, tmat, shapeMaterial);
+            //add tinyobj stuff to load an obj file
         } else if(QString::compare(shape["type"].toString(),("square")) == 0) {
-            //*geometry = SquarePlane(name, tmat, shapeMaterial);
+            geometry = SquarePlane(name, tmat, shapeMaterial);
         } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
-            //*geometry = Mesh(name, tmat, shapeMaterial);
-        } else if(QString::compare(shape["type"].toString(),("squarePlane"))
-            //*geometry = SquarePlane(name, tmat, shapeMaterial);
+            geometry = Mesh(name, tmat, shapeMaterial);
+            //add tinyobj stuff to load an obj file
+        } else if(QString::compare(shape["type"].toString(),("squarePlane"))) {
+            geometry = SquarePlane(name, tmat, shapeMaterial);
+        }
+         scene->geometries->push_back(geometry);
 
-        // scene->geometries->push_back(geometry);
 }
 
 scene_t JsonParser::parse(const char* name) {
@@ -122,22 +125,30 @@ scene_t JsonParser::parse(const char* name) {
     QJsonObject scene = jsonObject.value(QString("scene")).toObject();
     QJsonObject cam = scene.value(QString("camera")).toObject();
     QJsonArray target = cam["target"].toArray();
-    sceneTemp->camera->center_x = (float) target.at(0).toDouble();
-    sceneTemp->camera->center_y = (float) target.at(1).toDouble();
-    sceneTemp->camera->center_z = (float) target.at(2).toDouble();
-    QJsonArray eye = cam["eye"].toArray();
-    sceneTemp->camera->eye_x = (float) eye.at(0).toDouble();
-    sceneTemp->camera->eye_y = (float) eye.at(1).toDouble();
-    sceneTemp->camera->eye_z = (float) eye.at(2).toDouble();
     QJsonArray worldUp = cam["worldUp"].toArray();
-    sceneTemp->camera->up_x = (float) worldUp.at(0).toDouble();
-    sceneTemp->camera->up_y = (float) worldUp.at(1).toDouble();
-    sceneTemp->camera->up_z = (float) worldUp.at(2).toDouble();
-    sceneTemp->camera->fov = (float) cam["fov"].toDouble();
-    sceneTemp->camera->width = (float) cam["width"].toDouble();
-    sceneTemp->camera->height = (float) cam["height"].toDouble();
-    sceneTemp->camera->near = 0.01;
-    sceneTemp->camera->far = 1000;
+    QJsonArray eye = cam["eye"].toArray();
+    sceneTemp->camera = Camera(.01, 1000, (float) eye.at(0).toDouble(), (float) eye.at(1).toDouble(), (float) eye.at(2).toDouble(),
+                               (float) worldUp.at(0).toDouble(), (float) worldUp.at(1).toDouble(), (float) worldUp.at(2).toDouble(),
+                               (float) target.at(0).toDouble(), (float) target.at(1).toDouble(), (float) target.at(2).toDouble(),
+                               (float) cam["fov"].toDouble(), (float) cam["width"].toDouble(), (float) cam["height"].toDouble());
+            //(float near, float far, float eye_x, float eye_y, float eye_z, float up_x, float up_y, float up_z,
+           // float center_x, float center_y, float center_z, float fov, float width, float height)
+//    sceneTemp->camera->center_x = (float) target.at(0).toDouble();
+//    sceneTemp->camera->center_y = (float) target.at(1).toDouble();
+//    sceneTemp->camera->center_z = (float) target.at(2).toDouble();
+
+//    sceneTemp->camera->eye_x = (float) eye.at(0).toDouble();
+//    sceneTemp->camera->eye_y = (float) eye.at(1).toDouble();
+//    sceneTemp->camera->eye_z = (float) eye.at(2).toDouble();
+
+//    sceneTemp->camera->up_x = (float) worldUp.at(0).toDouble();
+//    sceneTemp->camera->up_y = (float) worldUp.at(1).toDouble();
+//    sceneTemp->camera->up_z = (float) worldUp.at(2).toDouble();
+//    sceneTemp->camera->fov = (float) cam["fov"].toDouble();
+//    sceneTemp->camera->width = (float) cam["width"].toDouble();
+//    sceneTemp->camera->height = (float) cam["height"].toDouble();
+//    sceneTemp->camera->near = 0.01;
+//    sceneTemp->camera->far = 1000;
     QJsonArray materials = scene.value(QString("material")).toArray();
     for (int i = 0; i < materials.size(); i++) {
         JsonParser::addMaterials(materials.at(i).toObject(), sceneTemp);

@@ -1,6 +1,6 @@
 #include "intersection.h"
 
-intersection::intersection(glm::vec4 pointOfIntersection, glm::vec4 surfaceNormal, float t, Geometry *geometry)
+Intersection::Intersection(glm::vec4 pointOfIntersection, glm::vec4 surfaceNormal, float t, Geometry *geometry)
 // points: use 1 as w value, only direction: use 0 as w value
 {
     this->pointOfIntersection = pointOfIntersection;

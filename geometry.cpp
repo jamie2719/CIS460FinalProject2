@@ -4,6 +4,10 @@ Geometry::Geometry() {
 
 }
 
-intersection Geometry::getIntersection(ray *inputRay) {
+Material *Geometry::getMaterial() {
+
+}
+
+Intersection Geometry::getIntersection(ray *inputRay) {
 
 }
