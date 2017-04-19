@@ -21,22 +21,22 @@ Camera::Camera(float near, float far, float eye_x, float eye_y, float eye_z, flo
     this->height = height;
 }
 
-ray *Camera::raycast(float px, float py) {
+ray *Camera::raycast(float px, float py, float width, float height) {
    // compute viewMatrix
     glm::mat4 viewMat = computeViewMatrix();
 
-   float sx = (2 * px/this->width) -1;
-   float sy = 1 - (2 * py/this->height);
+   float sx = (2 * px/width) -1.0;
+   float sy = 1.0 - (2 * py/height);
 
    glm::vec4 eye = glm::vec4(this->eye_x, this->eye_y, this->eye_z, 0);
-   float t = 3.0; // can be any float apparently???
+   float t = .5; // can be any float apparently???
 
    glm::vec4 ref = eye + t * viewMat[2];
-   float len =  (float)(ref - eye).length();
-   float alpha = this->fov / 2;
-   float degree = tan(alpha * M_PI / 180);
-   glm::vec4 V = viewMat[1] * len * degree;
-   glm::vec4 H = viewMat[0] * len * (this->width/this->height) * degree;
+   float len =  (float)((ref - eye).length());
+   float alpha = this->fov / 2.0;
+   float radians = tan(alpha * M_PI / 180.0);
+   glm::vec4 V = viewMat[1] * len * radians;
+   glm::vec4 H = viewMat[0] * len * (width/height) * radians;
    glm::vec4 p = ref + (sx * H) + (sy * V);
 
    glm::vec4 rayOrigin = eye;

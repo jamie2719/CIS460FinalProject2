@@ -7,7 +7,7 @@ class Sphere : public Geometry
 public:
     Sphere(char *name, glm::mat4 transform_mat, Material *material);
 
-    virtual Intersection getIntersection(ray *inputRay);
+    Intersection getIntersection(ray *inputRay);
 
     virtual Material *getMaterial();
 private:

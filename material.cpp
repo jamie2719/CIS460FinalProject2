@@ -1,6 +1,6 @@
 #include "material.h"
 
-Material::Material(char* type, char* name, int r, int g, int b, char* texture, QString normal, bool emissive)
+Material::Material(QString type, QString name, int r, int g, int b, QString texture, QString normal, bool emissive)
 {
     this->type = type;
     this->name = name;
@@ -8,14 +8,14 @@ Material::Material(char* type, char* name, int r, int g, int b, char* texture, Q
     this->g = g;
     this->b = b;
     this->texture = texture;
-    this->normal = normal.toLatin1().data();
+    this->normal = normal;
     this->emissive = emissive;
 }
 
-char *Material::getType() {
+QString Material::getType() {
     return this->type;
 }
-char *Material::getName() {
+QString Material::getName() {
     return this->name;
 }
 int Material::getR() {
@@ -27,10 +27,10 @@ int Material::getG() {
 int Material::getB() {
     return this->b;
 }
-char *Material::getTexture(){
+QString Material::getTexture(){
     return this->texture;
 }
-char *Material::getNormal() {
+QString Material::getNormal() {
     return this->normal;
 }
 bool Material::isEmissive() {

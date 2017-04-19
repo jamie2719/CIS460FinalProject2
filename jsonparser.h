@@ -28,7 +28,7 @@
 
 typedef struct scene_struct {
     QMap<QString, Material*> *materialsMap;
-    std::vector<Geometry> *geometries;
+    std::vector<Geometry*> geometries;
     //camera_t *camera = (camera_t *) malloc(sizeof(camera_t));
     Camera camera;
 } scene_t;
