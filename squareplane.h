@@ -5,13 +5,15 @@
 class SquarePlane : public Geometry
 {
 public:
-    SquarePlane(char *name, glm::mat4 transform_mat);
+    SquarePlane(char *name, glm::mat4 transform_mat, Material *material);
 
-    intersection getIntersection(ray *inputRay);
+    virtual Intersection getIntersection(ray *inputRay);
 
+    virtual Material *getMaterial();
 private:
     glm::mat4 transform_mat;
     const char *name;
+    Material *material;
 };
 
 #endif // SQUAREPLANE_H

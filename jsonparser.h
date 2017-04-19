@@ -11,22 +11,23 @@
 #include <triangle.h>
 #include <mesh.h>
 #include <material.h>
-//#include <mat4.h>
-//#include <vec4.h>
+#include "camera.h"
 
-typedef struct camera_struct {
-  float near, far;
-  float eye_x, eye_y, eye_z;
-  float up_x, up_y, up_z;
-  float fov;
-  float width, height;
-  float center_x, center_y, center_z;
-} camera_t;
+
+//typedef struct camera_struct {
+//  float near, far;
+//  float eye_x, eye_y, eye_z;
+//  float up_x, up_y, up_z;
+//  float fov;
+//  float width, height;
+//  float center_x, center_y, center_z;
+//} camera_t;
 
 typedef struct scene_struct {
     QMap<QString, Material*> *materialsMap;
     std::vector<Geometry> *geometries;
-    camera_t *camera = (camera_t *) malloc(sizeof(camera_t));
+    //camera_t *camera = (camera_t *) malloc(sizeof(camera_t));
+    Camera camera;
 } scene_t;
 
 class JsonParser

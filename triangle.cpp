@@ -1,12 +1,17 @@
 #include "triangle.h"
 
-Triangle::Triangle(char *name, glm::mat4 transform_mat, glm::vec4 a, glm::vec4 b, glm::vec4 c)
+Triangle::Triangle(char *name, glm::mat4 transform_mat, Material *material, glm::vec4 a, glm::vec4 b, glm::vec4 c)
 {
     this->transform_mat = transform_mat;
     this->name = name;
     this->a = a;
     this->b = b;
     this->c = c;
+    this->material = material;
+}
+
+Material *Triangle::getMaterial() {
+    return this->material;
 }
 
 //cross product of 2 vec4s
@@ -22,7 +27,7 @@ float area(glm::vec4 p1, glm::vec4 p2, glm::vec4 p3) {
     return (cross(p1-p2, p3-p2).length())/2.0;
 }
 
-intersection Triangle::getIntersection(ray *inputRay) {
+Intersection Triangle::getIntersection(ray *inputRay) {
     //find intersection point using ray-plane intersection
     float t;
     glm::vec4 p;
@@ -48,7 +53,7 @@ intersection Triangle::getIntersection(ray *inputRay) {
 
 
     if (s1 > 1 || s1 < 0 || s2 > 1 || s2 > 0 || s3 > 1 || s3 < 0 || s1+s2+s3 != 1.0) {
-        return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+        return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
     else {
         //convert p and normal to world space
@@ -57,7 +62,7 @@ intersection Triangle::getIntersection(ray *inputRay) {
 
         p = p * inverse_transpose;
         normal = normal * inverse_transpose;
-        return intersection(p, normal, t, this);
+        return Intersection(p, normal, t, this);
     }
 
 

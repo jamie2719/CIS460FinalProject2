@@ -1,13 +1,18 @@
 #include "cube.h"
 
-Cube::Cube(char *name, glm::mat4 transform_mat) {
+Cube::Cube(char *name, glm::mat4 transform_mat, Material *material) {
  //have to be able to  make cube of any size but get intersection should always test against unit sphere
 
     this->transform_mat = transform_mat;
     this->name = name;
+    this->material = material;
 }
 
-intersection Cube::getIntersection(ray *inputRay) {
+Material *Cube::getMaterial() {
+    return this->material;
+}
+
+Intersection Cube::getIntersection(ray *inputRay) {
     //The Cube should be 1x1x1 in dimensions and should be centered at the origin.
     //This means its vertices will be of the form <+-0.5, +-0.5, +-0.5>.
 
@@ -33,7 +38,8 @@ intersection Cube::getIntersection(ray *inputRay) {
     //x slab
     if (xd == 0) {
         if (x0 < -.5 || x0 > .5) {
-            return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+            return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1.0f,
+                                (Geometry *) this);
         }
     }
     else {
@@ -56,7 +62,7 @@ intersection Cube::getIntersection(ray *inputRay) {
     //y slab
     if (yd == 0) {
         if (y0 < -.5 || y0 > .5) {
-            return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+            return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, (Geometry *)this);
         }
     }
     else {
@@ -79,7 +85,7 @@ intersection Cube::getIntersection(ray *inputRay) {
     //z slab
     if (zd == 0) {
         if (z0 < -.5 || z0 > .5) {
-            return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+            return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, (Geometry *)this);
         }
     }
     else {
@@ -100,7 +106,7 @@ intersection Cube::getIntersection(ray *inputRay) {
     }
 
     if (t_near > t_far) {
-        return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+        return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, (Geometry *) this);
     }
 
     p = transformedRay.getOrigin() + t_near * transformedRay.getDirection();
@@ -139,6 +145,6 @@ intersection Cube::getIntersection(ray *inputRay) {
     normal = normal * inverse_transpose;
 
 
-    return intersection(p, normal, t_near, this);
+    return Intersection(p, normal, t_near, (Geometry *)this);
 
 }

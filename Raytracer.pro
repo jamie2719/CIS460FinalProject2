@@ -35,7 +35,11 @@ SOURCES += main.cpp\
     ray.cpp \
     jsonparser.cpp \
     camera.cpp \
+<<<<<<< HEAD
     material.cpp \
+=======
+    material.cpp
+>>>>>>> 69c970bfea81a80897923260e41afdcd472dd6b5
 
 HEADERS  += mainwindow.h \
     geometry.h \

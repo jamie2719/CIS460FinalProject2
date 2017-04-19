@@ -1,13 +1,17 @@
 #include "squareplane.h"
 
-SquarePlane::SquarePlane(char *name, glm::mat4 transform_mat)
+SquarePlane::SquarePlane(char *name, glm::mat4 transform_mat, Material *material)
 {
     this->transform_mat = transform_mat;
     this->name = name;
+    this->material = material;
 }
 
+Material *SquarePlane::getMaterial() {
+    return this->material;
+}
 
-intersection SquarePlane::getIntersection(ray *inputRay) {
+Intersection SquarePlane::getIntersection(ray *inputRay) {
     float t;
     glm::vec4 p;
     glm::vec4 normal;
@@ -47,7 +51,7 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
 
     //if point is not within boundaries of our square plane, there is no intersection
     if (p.operator [](0) < -.5 || p.operator [](1) < -.5 || p.operator [](0) > .5 || p.operator [](1) > .5) {
-        return intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
+        return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
 
 
@@ -58,7 +62,11 @@ intersection SquarePlane::getIntersection(ray *inputRay) {
     p = p * inverse_transpose;
     normal = normal * inverse_transpose;
 
+<<<<<<< HEAD
 
 
     return intersection(p, normal, t, this);
+=======
+    return Intersection(p, normal, t, this);
+>>>>>>> 69c970bfea81a80897923260e41afdcd472dd6b5
 }
