@@ -21,6 +21,8 @@ class Intersection
 public:
     Intersection(glm::vec4 pointOfIntersection, glm::vec4 surfaceNormal, float t, Geometry *geometry);
 
+    float getT();
+
 private:
     glm::vec4 pointOfIntersection; // should take the form of (x, y, z, 1)
     glm::vec4 surfaceNormal; // should take the form of (x, y, z, 0)

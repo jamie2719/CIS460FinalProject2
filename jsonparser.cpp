@@ -5,6 +5,8 @@
 #include <QString>
 #include <QFile>
 #include "ray.h"
+#include "QImage"
+#include <iostream>
 
 JsonParser::JsonParser()
 {
@@ -171,6 +173,41 @@ scene_t JsonParser::parse(const char* name) {
 }
 
 
+bool comparator(Intersection a, Intersection b) {
+    return (a.getT() < b.getT());
+}
+
+
+void JsonParser::render(float width, float height, scene_t scene) {
+    QImage output = QImage(width, height, QImage::Format_RGB888);
+    output.fill(Qt::black);
+    for (int row = 0; row < height; row++) {
+        for (int col = 0; col < width; col++) {
+            ray *currRay = scene.camera.raycast(col, row);
+            std::vector<Intersection> intersections;
+            for (int a = 0; a < scene.geometries->size(); a++) {
+                Geometry currGeometry = scene.geometries->at(a);
+                Intersection currIntersection = currGeometry.getIntersection(currRay);
+                if (currIntersection.getT() >= 0) {
+                    intersections.push_back(currIntersection);
+                }
+            }
+            if (!intersections.empty()) {
+                std::sort(intersections.begin(), intersections.end(), comparator);
+                //color pixel based on closest geometry
+                QRgb color = qRgb(255, 0, 0);
+                output.setPixel(col, row, color);
+            }
+
+        }
+    }
+    // save image
+    if (output.save("/Users/Jamie/Desktop/CIS 460/final_project/test.jpg")) {
+        std::cout<<"save successful"<<endl;
+    } else {
+        std::cout<<"save unsuccessful"<<endl;
+    }
+}
 
 
 

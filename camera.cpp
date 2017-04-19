@@ -2,6 +2,7 @@
 #include "la.h"
 #include "math.h"
 
+
 Camera::Camera(float near, float far, float eye_x, float eye_y, float eye_z, float up_x, float up_y, float up_z,
                float center_x, float center_y, float center_z, float fov, float width, float height) {
     this->near = near;
@@ -20,7 +21,7 @@ Camera::Camera(float near, float far, float eye_x, float eye_y, float eye_z, flo
     this->height = height;
 }
 
-ray Camera::raycast(float px, float py) {
+ray *Camera::raycast(float px, float py) {
    // compute viewMatrix
     glm::mat4 viewMat = computeViewMatrix();
 
@@ -42,7 +43,7 @@ ray Camera::raycast(float px, float py) {
    glm::vec4 rayDirection = glm::normalize(p - eye);
 
    ray returnedRay = ray(rayOrigin, rayDirection);
-   return returnedRay;
+   return &returnedRay;
 }
 
 glm::mat4 Camera::computeViewMatrix() {
@@ -71,6 +72,8 @@ glm::mat4 Camera::computeViewMatrix() {
     glm::mat4 viewMatrix = O * T;
     return viewMatrix;
 }
+
+
 
 
 

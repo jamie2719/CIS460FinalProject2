@@ -23,6 +23,9 @@
 //  float center_x, center_y, center_z;
 //} camera_t;
 
+
+
+
 typedef struct scene_struct {
     QMap<QString, Material*> *materialsMap;
     std::vector<Geometry> *geometries;
@@ -38,6 +41,7 @@ public:
     void addGeometry(QJsonObject shape, scene_t *scene);
     scene_t parse(const char* name);
     ray rayCast(float x, float y);
+    void render(float width, float height, scene_t scene);
 };
 
 #endif // JSONPARSER_H
