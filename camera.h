@@ -2,6 +2,10 @@
 #define CAMERA_H
 #include "ray.h"
 #include "la.h"
+//#include "jsonparser.h"
+
+
+
 
 
 class Camera
@@ -10,9 +14,11 @@ public:
     Camera(float near, float far, float eye_x, float eye_y, float eye_z, float up_x, float up_y, float up_z,
            float center_x, float center_y, float center_z, float fov, float width, float height);
 
-    ray raycast(float px, float py);
+    ray *raycast(float px, float py);
 
     glm::mat4 computeViewMatrix();
+
+
 
 
 private:

@@ -9,4 +9,8 @@ Intersection::Intersection(glm::vec4 pointOfIntersection, glm::vec4 surfaceNorma
     this->geometry = geometry;
 }
 
+float Intersection::getT() {
+    return this->t;
+}
+
 
