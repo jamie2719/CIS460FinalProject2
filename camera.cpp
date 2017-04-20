@@ -33,12 +33,12 @@ ray Camera::raycast(float px, float py, float width, float height) {
 
    glm::mat4 transposeViewMatrix = glm::transpose(viewMat);
 
-   glm::vec4 ref = eye + t * transposeViewMatrix[2];
+   glm::vec4 ref = eye + t * viewMat[2];
    float len =  (float)((ref - eye).length());
    float alpha = this->fov / 2.0;
    float radians = tan(alpha * M_PI / 180.0);
-   glm::vec4 V = transposeViewMatrix[1] * len * radians;
-   glm::vec4 H = transposeViewMatrix[0] * len * (width/height) * radians;
+   glm::vec4 V = viewMat[1] * len * radians;
+   glm::vec4 H = viewMat[0] * len * (width/height) * radians;
    glm::vec4 p = ref + (sx * H) + (sy * V);
 
    glm::vec4 rayOrigin = eye;
@@ -73,7 +73,7 @@ glm::mat4 Camera::computeViewMatrix() {
     glm::vec4 vec3 = glm::vec4(0, 0, 1, 0);
     glm::vec4 vecFour = glm::vec4(-this->eye_x, -this->eye_y, -this->eye_z, 1.f);
     glm::mat4 T = glm::mat4(vec1, vec2, vec3, vecFour);
-    glm::mat4 viewMatrix = Ori * T;
+    glm::mat4 viewMatrix = T * Ori;
     return viewMatrix;
 }
 

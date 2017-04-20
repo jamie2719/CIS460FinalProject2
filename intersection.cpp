@@ -13,4 +13,8 @@ float Intersection::getT() {
     return this->t;
 }
 
+Geometry * Intersection::getGeometry() {
+    return this->geometry;
+}
+
 

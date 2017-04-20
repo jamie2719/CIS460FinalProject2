@@ -204,14 +204,17 @@ void JsonParser::render(float width, float height, scene_t scene) {
             if (!intersections.empty()) {
                 std::sort(intersections.begin(), intersections.end(), comparator);
                 //color pixel based on closest geometry
-                QRgb color = qRgb(255, 0, 0);
+                Geometry * closest = intersections[0].getGeometry();
+                QRgb color = qRgb(closest->getMaterial()->getR(),
+                                  closest->getMaterial()->getG(),
+                                  closest->getMaterial()->getB());
                 output.setPixel(col, row, color);
             }
 
         }
     }
     // save image
-    if (output.save("..//final project//test.ppm")) {
+    if (output.save("..//final project//test1.ppm")) {
         std::cout<<"save successful"<<endl;
     } else {
         std::cout<<"save unsuccessful"<<endl;
