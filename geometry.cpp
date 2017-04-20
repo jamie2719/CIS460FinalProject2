@@ -4,3 +4,6 @@ Geometry::Geometry() {
 
 }
 
+Geometry::~Geometry() {
+//    delete material;
+}

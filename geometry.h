@@ -10,7 +10,8 @@
 class Geometry {
 public:
     Geometry();
-    virtual Intersection getIntersection(ray *inputRay) = 0; //jess's class intersection
+    ~Geometry();
+    virtual Intersection getIntersection(ray inputRay) = 0; //jess's class intersection
     virtual Material *getMaterial() = 0;
 
 private:

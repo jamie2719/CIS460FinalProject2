@@ -1,6 +1,6 @@
 #include "squareplane.h"
 
-SquarePlane::SquarePlane(char *name, glm::mat4 transform_mat, Material *material)
+SquarePlane::SquarePlane(char *name, glm::mat4 transform_mat, Material *material) : Geometry()
 {
     this->transform_mat = transform_mat;
     this->name = name;
@@ -11,13 +11,13 @@ Material *SquarePlane::getMaterial() {
     return this->material;
 }
 
-Intersection SquarePlane::getIntersection(ray *inputRay) {
+Intersection SquarePlane::getIntersection(ray inputRay) {
     float t;
     glm::vec4 p;
     glm::vec4 normal;
 
     glm::mat4 invMat = glm::inverse(this->transform_mat);
-    ray transformedRay = inputRay->getTransformedCopy(invMat);
+    ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
     t = (glm::dot(((float)-1  * transformedRay.getOrigin()), plane_normal))/(glm::dot(transformedRay.getDirection(), plane_normal));
@@ -35,7 +35,7 @@ Intersection SquarePlane::getIntersection(ray *inputRay) {
     glm::mat4 inverse = glm::inverse(transform_mat);
     glm::mat4 inverse_transpose = glm::transpose(inverse);
 
-    p = p * inverse_transpose;
+    p = p * inverse;
     normal = normal * inverse_transpose;
 
     return Intersection(p, normal, t, this);

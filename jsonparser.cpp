@@ -143,10 +143,11 @@ scene_t JsonParser::parse(const char* name) {
     QJsonArray target = cam["target"].toArray();
     QJsonArray worldUp = cam["worldUp"].toArray();
     QJsonArray eye = cam["eye"].toArray();
-    sceneGlobal->camera = Camera(.01, 1000, (float) eye.at(0).toDouble(), (float) eye.at(1).toDouble(), (float) eye.at(2).toDouble(),
-                               (float) worldUp.at(0).toDouble(), (float) worldUp.at(1).toDouble(), (float) worldUp.at(2).toDouble(),
-                               (float) target.at(0).toDouble(), (float) target.at(1).toDouble(), (float) target.at(2).toDouble(),
-                               (float) cam["fov"].toDouble(), (float) cam["width"].toDouble(), (float) cam["height"].toDouble());
+    sceneGlobal->camera = Camera(.01, 1000,
+                                 (float) eye.at(0).toDouble(), (float) eye.at(1).toDouble(), (float) eye.at(2).toDouble(),
+                                 (float) worldUp.at(0).toDouble(), (float) worldUp.at(1).toDouble(), (float) worldUp.at(2).toDouble(),
+                                 (float) target.at(0).toDouble(), (float) target.at(1).toDouble(), (float) target.at(2).toDouble(),
+                                 (float) cam["fov"].toDouble(), (float) cam["width"].toDouble(), (float) cam["height"].toDouble());
             //(float near, float far, float eye_x, float eye_y, float eye_z, float up_x, float up_y, float up_z,
            // float center_x, float center_y, float center_z, float fov, float width, float height)
 //    sceneTemp->camera->center_x = (float) target.at(0).toDouble();
@@ -189,13 +190,15 @@ bool comparator(Intersection a, Intersection b) {
 void JsonParser::render(float width, float height, scene_t scene) {
     QImage output = QImage(width, height, QImage::Format_RGB888);
     output.fill(Qt::black);
-    for (int row = 200; row < height; row++) {
-        for (int col = 200; col < width; col++) {
-            ray *currRay = scene.camera.raycast(col, row, width, height);
-            std::vector<Intersection> intersections;
+    for (int row = 0; row < height; row++) {
+        for (int col = 0; col < width; col++) {
+            ray currRay = scene.camera.raycast(col, row, width, height);
+            std::vector<Intersection> intersections = std::vector<Intersection>();
             for (int a = 0; a < scene.geometries.size(); a++) {
-                //Geometry currGeometry = scene.geometries.at(a);
-                Intersection currIntersection = scene.geometries.at(a)->getIntersection(currRay);
+               Geometry* geom = scene.geometries[a];
+
+               Intersection currIntersection = geom->getIntersection(currRay);
+
                 if (currIntersection.getT() >= 0) {
                     intersections.push_back(currIntersection);
                 }
