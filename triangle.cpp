@@ -1,6 +1,6 @@
 #include "triangle.h"
 
-Triangle::Triangle(char *name, glm::mat4 transform_mat, Material *material, glm::vec4 a, glm::vec4 b, glm::vec4 c)
+Triangle::Triangle(char *name, glm::mat4 transform_mat, Material *material, glm::vec4 a, glm::vec4 b, glm::vec4 c) : Geometry()
 {
     this->transform_mat = transform_mat;
     this->name = name;
@@ -27,14 +27,14 @@ float area(glm::vec4 p1, glm::vec4 p2, glm::vec4 p3) {
     return (cross(p1-p2, p3-p2).length())/2.0;
 }
 
-Intersection Triangle::getIntersection(ray *inputRay) {
+Intersection Triangle::getIntersection(ray inputRay) {
     //find intersection point using ray-plane intersection
     float t;
     glm::vec4 p;
     glm::vec4 normal;
 
     glm::mat4 invMat = glm::inverse(this->transform_mat);
-    ray transformedRay = inputRay->getTransformedCopy(invMat);
+    ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
     t = (glm::dot(((float)-1  * transformedRay.getOrigin()), plane_normal))/(glm::dot(transformedRay.getDirection(), plane_normal));
@@ -60,7 +60,7 @@ Intersection Triangle::getIntersection(ray *inputRay) {
         glm::mat4 inverse = glm::inverse(transform_mat);
         glm::mat4 inverse_transpose = glm::transpose(inverse);
 
-        p = p * inverse_transpose;
+        p = p * inverse;
         normal = normal * inverse_transpose;
         return Intersection(p, normal, t, this);
     }

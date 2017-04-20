@@ -6,10 +6,11 @@ class Sphere : public Geometry
 {
 public:
     Sphere(char *name, glm::mat4 transform_mat, Material *material);
+    ~Sphere();
 
-    virtual Intersection getIntersection(ray *inputRay);
+    Intersection getIntersection(ray inputRay);
 
-    virtual Material *getMaterial();
+    Material *getMaterial();
 private:
     glm::mat4 transform_mat;
     const char* name;

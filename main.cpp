@@ -11,13 +11,13 @@ int main(int argc, char *argv[])
     float height = atof(argv[3]);
     parser.render(width, height, scene);
 
+//    QApplication a(argc, argv);
+//    MainWindow w;
+//    w.show();
+
+//    return a.exec();
 
 //ADDED THIS COMMENT
 
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
 }

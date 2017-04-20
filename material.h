@@ -5,23 +5,23 @@
 class Material
 {
 public:
-    Material(char* type, char* name, int r, int g, int b, char* texture, QString normal, bool emissive);
-    char* getType();
-    char* getName();
+    Material(QString type, QString name, int r, int g, int b, QString texture, QString normal, bool emissive);
+    QString getType();
+    QString getName();
     int getR();
     int getG();
     int getB();
-    char* getTexture();
-    char* getNormal();
+    QString getTexture();
+    QString getNormal();
     bool isEmissive();
 private:
-    char* type;
-    char* name;
+    QString type;
+    QString name;
     int r;
     int g;
     int b;
-    char* texture;
-    char* normal;
+    QString texture;
+    QString normal;
     bool emissive;
 };
 

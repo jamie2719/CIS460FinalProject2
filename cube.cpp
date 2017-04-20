@@ -1,18 +1,19 @@
 #include "cube.h"
 
-Cube::Cube(char *name, glm::mat4 transform_mat, Material *material) {
+Cube::Cube(char *name, glm::mat4 transform_mat, Material *material) : Geometry() {
  //have to be able to  make cube of any size but get intersection should always test against unit sphere
-
     this->transform_mat = transform_mat;
     this->name = name;
     this->material = material;
 }
 
+
+
 Material *Cube::getMaterial() {
     return this->material;
 }
 
-Intersection Cube::getIntersection(ray *inputRay) {
+Intersection Cube::getIntersection(ray inputRay) {
     //The Cube should be 1x1x1 in dimensions and should be centered at the origin.
     //This means its vertices will be of the form <+-0.5, +-0.5, +-0.5>.
 
@@ -24,7 +25,7 @@ Intersection Cube::getIntersection(ray *inputRay) {
 
     glm::mat4 invMat = glm::inverse(this->transform_mat);
 
-    ray transformedRay = inputRay->getTransformedCopy(invMat);
+    ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     float x0 = transformedRay.getOrigin().operator [](0);
     float y0 = transformedRay.getOrigin().operator [](1);
@@ -141,7 +142,7 @@ Intersection Cube::getIntersection(ray *inputRay) {
     glm::mat4 inverse = glm::inverse(transform_mat);
     glm::mat4 inverse_transpose = glm::transpose(inverse);
 
-    p = p * inverse_transpose;
+    p = p * inverse;
     normal = normal * inverse_transpose;
 
 

@@ -7,7 +7,7 @@ class SquarePlane : public Geometry
 public:
     SquarePlane(char *name, glm::mat4 transform_mat, Material *material);
 
-    virtual Intersection getIntersection(ray *inputRay);
+    virtual Intersection getIntersection(ray inputRay);
 
     virtual Material *getMaterial();
 private:

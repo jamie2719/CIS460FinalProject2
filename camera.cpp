@@ -21,37 +21,39 @@ Camera::Camera(float near, float far, float eye_x, float eye_y, float eye_z, flo
     this->height = height;
 }
 
-ray *Camera::raycast(float px, float py) {
+ray Camera::raycast(float px, float py, float width, float height) {
    // compute viewMatrix
     glm::mat4 viewMat = computeViewMatrix();
 
-   float sx = (2 * px/this->width) -1;
-   float sy = 1 - (2 * py/this->height);
+   float sx = (2 * px/width) - 1.0;
+   float sy = 1.0 - (2 * py/height);
 
    glm::vec4 eye = glm::vec4(this->eye_x, this->eye_y, this->eye_z, 0);
-   float t = 3.0; // can be any float apparently???
+   float t = .5; // can be any float apparently???
 
    glm::vec4 ref = eye + t * viewMat[2];
-   float len =  (float)(ref - eye).length();
-   float alpha = this->fov / 2;
-   float degree = tan(alpha * M_PI / 180);
-   glm::vec4 V = viewMat[1] * len * degree;
-   glm::vec4 H = viewMat[0] * len * (this->width/this->height) * degree;
+   float len =  (float)((ref - eye).length());
+   float alpha = this->fov / 2.0;
+   float radians = tan(alpha * M_PI / 180.0);
+   glm::vec4 V = viewMat[1] * len * radians;
+   glm::vec4 H = viewMat[0] * len * (width/height) * radians;
    glm::vec4 p = ref + (sx * H) + (sy * V);
 
    glm::vec4 rayOrigin = eye;
    glm::vec4 rayDirection = glm::normalize(p - eye);
 
    ray returnedRay = ray(rayOrigin, rayDirection);
-   return &returnedRay;
+   return returnedRay;
 }
 
 glm::mat4 Camera::computeViewMatrix() {
-    glm::vec3 F = glm::vec3(this->center_x - this->eye_x, this->center_y - this->eye_y,
+    glm::vec3 F = glm::vec3(this->center_x - this->eye_x,
+                            this->center_y - this->eye_y,
                             this->center_z - this->eye_z);
     glm::vec3 normF = F / (float)F.length();
     glm::vec3 UP = glm::vec3(this->up_x, this->up_y, this->up_z);
     glm::vec3 normUP = UP / (float)UP.length();
+
     // compute cross product
     glm::vec3 s = glm::cross(normF, normUP);
     glm::vec3 normS = s / (float)s.length();
@@ -62,14 +64,14 @@ glm::mat4 Camera::computeViewMatrix() {
     glm::vec4 v2 = glm::vec4(s[1], u[1], normF[1], 0);
     glm::vec4 v3 = glm::vec4(s[2], u[2], normF[2], 0);
     glm::vec4 v4 = glm::vec4(0, 0, 0, 1);
-    glm::mat4 O = glm::mat4(v1, v2, v3, v4);
+    glm::mat4 Ori = glm::mat4(v1, v2, v3, v4);
 
     glm::vec4 vec1 = glm::vec4(1, 0, 0, 0);
     glm::vec4 vec2 = glm::vec4(0, 1, 0, 0);
     glm::vec4 vec3 = glm::vec4(0, 0, 1, 0);
-    glm::vec4 vecFour = glm::vec4(-this->eye_x, -this->eye_y, -this->eye_z, 1);
+    glm::vec4 vecFour = glm::vec4(-this->eye_x, -this->eye_y, -this->eye_z, 1.f);
     glm::mat4 T = glm::mat4(vec1, vec2, vec3, vecFour);
-    glm::mat4 viewMatrix = O * T;
+    glm::mat4 viewMatrix = Ori * T;
     return viewMatrix;
 }
 
