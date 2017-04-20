@@ -698,7 +698,120 @@ main.o: ../main.cpp ../mainwindow.h \
 		../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QApplication \
-		../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
+		../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../jsonparser.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QJsonObject \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qjsonobject.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QMap \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qmap.h \
+		../geometry.h \
+		../intersection.h \
+		../la.h \
+		../glm/glm.hpp \
+		../glm/detail/_fixes.hpp \
+		../glm/fwd.hpp \
+		../glm/detail/type_int.hpp \
+		../glm/detail/setup.hpp \
+		../glm/detail/type_float.hpp \
+		../glm/detail/type_vec.hpp \
+		../glm/detail/precision.hpp \
+		../glm/detail/type_mat.hpp \
+		../glm/vec2.hpp \
+		../glm/detail/type_vec2.hpp \
+		../glm/detail/_swizzle.hpp \
+		../glm/detail/_swizzle_func.hpp \
+		../glm/detail/type_vec2.inl \
+		../glm/vec3.hpp \
+		../glm/detail/type_vec3.hpp \
+		../glm/detail/type_vec3.inl \
+		../glm/vec4.hpp \
+		../glm/detail/type_vec4.hpp \
+		../glm/detail/type_vec4.inl \
+		../glm/mat2x2.hpp \
+		../glm/detail/type_mat2x2.hpp \
+		../glm/detail/type_mat2x2.inl \
+		../glm/mat2x3.hpp \
+		../glm/detail/type_mat2x3.hpp \
+		../glm/detail/type_mat2x3.inl \
+		../glm/mat2x4.hpp \
+		../glm/detail/type_mat2x4.hpp \
+		../glm/detail/type_mat2x4.inl \
+		../glm/mat3x2.hpp \
+		../glm/detail/type_mat3x2.hpp \
+		../glm/detail/type_mat3x2.inl \
+		../glm/mat3x3.hpp \
+		../glm/detail/type_mat3x3.hpp \
+		../glm/detail/type_mat3x3.inl \
+		../glm/mat3x4.hpp \
+		../glm/detail/type_mat3x4.hpp \
+		../glm/detail/type_mat3x4.inl \
+		../glm/mat4x2.hpp \
+		../glm/detail/type_mat4x2.hpp \
+		../glm/detail/type_mat4x2.inl \
+		../glm/mat4x3.hpp \
+		../glm/detail/type_mat4x3.hpp \
+		../glm/detail/type_mat4x3.inl \
+		../glm/mat4x4.hpp \
+		../glm/detail/type_mat4x4.hpp \
+		../glm/detail/type_mat4x4.inl \
+		../glm/trigonometric.hpp \
+		../glm/detail/func_trigonometric.hpp \
+		../glm/detail/func_trigonometric.inl \
+		../glm/detail/_vectorize.hpp \
+		../glm/detail/type_vec1.hpp \
+		../glm/detail/type_vec1.inl \
+		../glm/exponential.hpp \
+		../glm/detail/func_exponential.hpp \
+		../glm/detail/func_exponential.inl \
+		../glm/detail/func_vector_relational.hpp \
+		../glm/detail/func_vector_relational.inl \
+		../glm/common.hpp \
+		../glm/detail/func_common.hpp \
+		../glm/detail/func_common.inl \
+		../glm/packing.hpp \
+		../glm/detail/func_packing.hpp \
+		../glm/detail/func_packing.inl \
+		../glm/detail/type_half.hpp \
+		../glm/detail/type_half.inl \
+		../glm/geometric.hpp \
+		../glm/detail/func_geometric.hpp \
+		../glm/detail/func_geometric.inl \
+		../glm/matrix.hpp \
+		../glm/detail/func_matrix.hpp \
+		../glm/detail/func_matrix.inl \
+		../glm/vector_relational.hpp \
+		../glm/integer.hpp \
+		../glm/detail/func_integer.hpp \
+		../glm/detail/func_integer.inl \
+		../glm/gtc/matrix_transform.hpp \
+		../glm/gtc/constants.hpp \
+		../glm/gtc/constants.inl \
+		../glm/gtc/matrix_transform.inl \
+		../glm/gtx/string_cast.hpp \
+		../glm/gtx/integer.hpp \
+		../glm/gtx/integer.inl \
+		../glm/gtx/quaternion.hpp \
+		../glm/gtc/quaternion.hpp \
+		../glm/gtx/quaternion.inl \
+		../glm/gtx/norm.hpp \
+		../glm/gtx/norm.inl \
+		../glm/gtx/string_cast.inl \
+		../glm/gtc/type_ptr.hpp \
+		../glm/gtc/type_ptr.inl \
+		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
+		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		../sphere.h \
+		../cube.h \
+		../squareplane.h \
+		../triangle.h \
+		../mesh.h \
+		../camera.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
 mainwindow.o: ../mainwindow.cpp ../mainwindow.h \
@@ -803,7 +916,10 @@ geometry.o: ../geometry.cpp ../geometry.h \
 		../glm/gtc/type_ptr.inl \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		../ray.h
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o geometry.o ../geometry.cpp
 
 cube.o: ../cube.cpp ../cube.h \
@@ -903,7 +1019,10 @@ cube.o: ../cube.cpp ../cube.h \
 		../glm/gtc/type_ptr.inl \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		../ray.h
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cube.o ../cube.cpp
 
 sphere.o: ../sphere.cpp ../sphere.h \
@@ -1003,7 +1122,10 @@ sphere.o: ../sphere.cpp ../sphere.h \
 		../glm/gtc/type_ptr.inl \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		../ray.h
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sphere.o ../sphere.cpp
 
 triangle.o: ../triangle.cpp ../triangle.h \
@@ -1103,7 +1225,10 @@ triangle.o: ../triangle.cpp ../triangle.h \
 		../glm/gtc/type_ptr.inl \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		../ray.h
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o triangle.o ../triangle.cpp
 
 squareplane.o: ../squareplane.cpp ../squareplane.h \
@@ -1203,7 +1328,10 @@ squareplane.o: ../squareplane.cpp ../squareplane.h \
 		../glm/gtc/type_ptr.inl \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		../ray.h
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o squareplane.o ../squareplane.cpp
 
 mesh.o: ../mesh.cpp ../mesh.h \
@@ -1303,7 +1431,10 @@ mesh.o: ../mesh.cpp ../mesh.h \
 		../glm/gtc/type_ptr.inl \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		../ray.h
+		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mesh.o ../mesh.cpp
 
 intersection.o: ../intersection.cpp ../intersection.h \
@@ -1604,18 +1735,21 @@ jsonparser.o: ../jsonparser.cpp ../jsonparser.h \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
 		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
 		../ray.h \
+		../material.h \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../sphere.h \
 		../cube.h \
 		../squareplane.h \
 		../triangle.h \
 		../mesh.h \
-		../material.h \
-		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QString \
-		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		../camera.h \
 		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QJsonDocument \
 		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qjsondocument.h \
 		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/QFile \
-		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qfile.h
+		../../Qt/5.7/clang_64/lib/QtCore.framework/Headers/qfile.h \
+		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/QImage \
+		../../Qt/5.7/clang_64/lib/QtGui.framework/Headers/qimage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o jsonparser.o ../jsonparser.cpp
 
 camera.o: ../camera.cpp ../camera.h \
