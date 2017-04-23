@@ -12,6 +12,7 @@
 #include <mesh.h>
 #include <material.h>
 #include "camera.h"
+#include "scene.h"
 
 
 //typedef struct camera_struct {
@@ -24,24 +25,16 @@
 //} camera_t;
 
 
-
-
-typedef struct scene_struct {
-    QMap<QString, Material*> *materialsMap;
-    std::vector<Geometry*> geometries;
-    //camera_t *camera = (camera_t *) malloc(sizeof(camera_t));
-    Camera camera;
-} scene_t;
-
 class JsonParser
 {
 public:
     JsonParser();
-    void addMaterials(QJsonObject mat, scene_t *scene);
-    void addGeometry(QJsonObject shape, scene_t *scene);
-    scene_t parse(const char* name);
+    void addMaterials(QJsonObject mat, Scene *scene);
+    void addGeometry(QJsonObject shape, Scene *scene);
+//    scene_t parse(const char* name);
+    Scene *parse(const char* name);
     ray rayCast(float x, float y);
-    void render(float width, float height, scene_t scene);
+    void render(float width, float height, Scene *scene);
 };
 
 #endif // JSONPARSER_H

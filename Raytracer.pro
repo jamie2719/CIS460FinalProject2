@@ -36,6 +36,7 @@ SOURCES += main.cpp\
     jsonparser.cpp \
     camera.cpp \
     material.cpp \
+    scene.cpp
 
 HEADERS  += mainwindow.h \
     geometry.h \
@@ -49,6 +50,7 @@ HEADERS  += mainwindow.h \
     jsonparser.h \
     la.h \
     camera.h \
-    material.h
+    material.h \
+    scene.h
 
 FORMS    += mainwindow.ui

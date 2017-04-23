@@ -2,6 +2,9 @@
 #include "la.h"
 #include "math.h"
 
+Camera::Camera() {
+
+}
 
 Camera::Camera(float near, float far, float eye_x, float eye_y, float eye_z, float up_x, float up_y, float up_z,
                float center_x, float center_y, float center_z, float fov, float width, float height) {
