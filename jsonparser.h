@@ -28,13 +28,17 @@
 class JsonParser
 {
 public:
+    Scene* sceneGlobal;
     JsonParser();
-    void addMaterials(QJsonObject mat, Scene *scene);
-    void addGeometry(QJsonObject shape, Scene *scene);
+    Material addMaterials(QJsonObject mat);
+    Geometry *addGeometry(QJsonObject shape, QMap<QString, Material> *materialsMap);
 //    scene_t parse(const char* name);
     Scene *parse(const char* name);
     ray rayCast(float x, float y);
     void render(float width, float height, Scene *scene);
+
+private:
+
 };
 
 #endif // JSONPARSER_H

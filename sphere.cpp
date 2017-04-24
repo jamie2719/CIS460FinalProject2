@@ -1,7 +1,7 @@
 #include "sphere.h"
 
 
-Sphere::Sphere(char *name, glm::mat4 transform_mat, Material *material) : Geometry()
+Sphere::Sphere(QString name, glm::mat4 transform_mat, Material material) : Geometry()
 {
     this->transform_mat = transform_mat;
     this->name = name;
@@ -11,7 +11,7 @@ Sphere::~Sphere() {
 //    delete material;
 }
 
-Material *Sphere::getMaterial() {
+Material Sphere::getMaterial() {
     return this->material;
 }
 

@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
 
     JsonParser parser = JsonParser();
-    Scene *scene = parser.parse(argv[1]);
+    Scene* scene = parser.parse(argv[1]);
 
     //parser.parse(argv[1]);
 

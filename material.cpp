@@ -1,5 +1,9 @@
 #include "material.h"
 
+Material::Material(){
+
+}
+
 Material::Material(QString type, QString name, int r, int g, int b, QString texture, QString normal, bool emissive)
 {
     this->type = type;

@@ -10,17 +10,16 @@ class Scene
 {
 public:
     Scene();
-    void addMaterial(QString name, Material* newMat);
-    void addGeometries(Geometry shape);
-    void setCamera(Camera cam);
-    QMap<QString, Material*> *getMaterials();
+    Scene(QMap<QString, Material> *materials, std::vector<Geometry*> *geos, Camera* cam);
+    void setCamera(Camera* cam);
+    QMap<QString, Material> *getMaterials();
     std::vector<Geometry*> *getGeometries();
-    Camera getCamera();
+    Camera *getCamera();
 
 private:
-    QMap<QString, Material*> *materialsMap;
+    QMap<QString, Material> *materialsMap;
     std::vector<Geometry*> *geometries;
-    Camera camera;
+    Camera* camera;
 };
 
 #endif // SCENE_H

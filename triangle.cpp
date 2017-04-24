@@ -1,6 +1,6 @@
 #include "triangle.h"
 
-Triangle::Triangle(char *name, glm::mat4 transform_mat, Material *material, glm::vec4 a, glm::vec4 b, glm::vec4 c) : Geometry()
+Triangle::Triangle(QString name, glm::mat4 transform_mat, Material material, glm::vec4 a, glm::vec4 b, glm::vec4 c) : Geometry()
 {
     this->transform_mat = transform_mat;
     this->name = name;
@@ -10,7 +10,7 @@ Triangle::Triangle(char *name, glm::mat4 transform_mat, Material *material, glm:
     this->material = material;
 }
 
-Material *Triangle::getMaterial() {
+Material Triangle::getMaterial() {
     return this->material;
 }
 

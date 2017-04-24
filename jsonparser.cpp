@@ -11,10 +11,9 @@
 JsonParser::JsonParser()
 {
 
-
 }
 //Scene sceneGlobal;
-void JsonParser::addMaterials(QJsonObject mat, Scene* scene) {
+Material JsonParser::addMaterials(QJsonObject mat) {
     QString type = mat["type"].toString();
     QString name = mat["name"].toString();
     int r = 1;
@@ -39,30 +38,29 @@ void JsonParser::addMaterials(QJsonObject mat, Scene* scene) {
         char* texture = mat["texture"].toString().toLatin1().data();
         if(mat.contains("normalMap")) {
             QString normal = mat["normalMap"].toString();
-            newMat = Material(type, name, r, g, b, texture, normal, emiss);
+            return newMat = Material(type, name, r, g, b, texture, normal, emiss);
         } else {
-            newMat = Material(type, name, r, g, b, texture, NULL, emiss);
+            return newMat = Material(type, name, r, g, b, texture, NULL, emiss);
         }
     } else {
         if(mat.contains("normalMap")) {
             QString normal = mat["normalMap"].toString();
-            newMat = Material(type, name, r, g, b, NULL, normal, emiss);
+            return newMat = Material(type, name, r, g, b, NULL, normal, emiss);
         } else {
-            newMat = Material(type, name, r, g, b, NULL, NULL, emiss);
+            return newMat = Material(type, name, r, g, b, NULL, NULL, emiss);
         }
     }
-    scene->addMaterial(name, &newMat);
 }
 
-void JsonParser::addGeometry(QJsonObject shape, Scene* scene) {
+Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *materialsMap) {
     //Geometry geometry;// = Geometry();
-    Material *shapeMaterial;
-    if (scene->getMaterials()->contains(shape["material"].toString().toLatin1().data())) {
-        shapeMaterial = scene->getMaterials()->value(shape["material"].toString().toLatin1().data());
+    Material shapeMaterial;
+    if (materialsMap->contains(shape["material"].toString().toLatin1().data())) {
+        shapeMaterial = materialsMap->value(shape["material"].toString().toLatin1().data());
     }
-    char *name;
+    QString name;
     if(shape.contains("name")){
-        name = shape["name"].toString().toLatin1().data();
+        name = shape["name"].toString();
     }
         QJsonObject transform = shape["transform"].toObject();
         glm::mat4 tmat = glm::mat4();
@@ -105,20 +103,20 @@ void JsonParser::addGeometry(QJsonObject shape, Scene* scene) {
         }
         if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
 //           Geometry *geometry;
-           Sphere geometry = Sphere(name, tmat, shapeMaterial);
-           scene->addGeometries(geometry);
+           Sphere *geometry = new Sphere(name, tmat, shapeMaterial);
+           return geometry;
         } else if(QString::compare(shape["type"].toString(),("cube")) == 0) {
-            Cube geometry = Cube(name, tmat, shapeMaterial);
-            scene->addGeometries(geometry);
+            Cube *geometry = new Cube(name, tmat, shapeMaterial);
+            return geometry;
         } else if(QString::compare(shape["type"].toString(),("triangle")) == 0) {
             //geometry = Triangle(name, tmat, shapeMaterial);
             //add tinyobj stuff to load an obj file
         } else if(QString::compare(shape["type"].toString(),("square")) == 0) {
-            SquarePlane geometry = SquarePlane(name, tmat, shapeMaterial);
-            scene->addGeometries(geometry);
+            SquarePlane *geometry = new SquarePlane(name, tmat, shapeMaterial);
+            return geometry;
         } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
-            Mesh geometry = Mesh(name, tmat, shapeMaterial);
-            scene->addGeometries(geometry);
+            Mesh *geometry = new Mesh(name, tmat, shapeMaterial);
+            return geometry;
             //add tinyobj stuff to load an obj file
         }
 
@@ -132,7 +130,6 @@ Scene* JsonParser::parse(const char* name) {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     fileString = file.readAll();
     file.close();
-    Scene sceneGlobal = Scene();
     QJsonDocument json = QJsonDocument::fromJson(fileString.toUtf8());
     QJsonObject jsonObject = json.object();
     QJsonObject scene = jsonObject.value(QString("scene")).toObject();
@@ -140,11 +137,12 @@ Scene* JsonParser::parse(const char* name) {
     QJsonArray target = cam["target"].toArray();
     QJsonArray worldUp = cam["worldUp"].toArray();
     QJsonArray eye = cam["eye"].toArray();
-    sceneGlobal.setCamera(Camera(.01, 1000,
-                                 (float) eye.at(0).toDouble(), (float) eye.at(1).toDouble(), (float) eye.at(2).toDouble(),
-                                 (float) worldUp.at(0).toDouble(), (float) worldUp.at(1).toDouble(), (float) worldUp.at(2).toDouble(),
-                                 (float) target.at(0).toDouble(), (float) target.at(1).toDouble(), (float) target.at(2).toDouble(),
-                                 (float) cam["fov"].toDouble(), (float) cam["width"].toDouble(), (float) cam["height"].toDouble()));
+    Camera *camera;
+    *camera = Camera(.01, 1000,
+                            (float) eye.at(0).toDouble(), (float) eye.at(1).toDouble(), (float) eye.at(2).toDouble(),
+                            (float) worldUp.at(0).toDouble(), (float) worldUp.at(1).toDouble(), (float) worldUp.at(2).toDouble(),
+                            (float) target.at(0).toDouble(), (float) target.at(1).toDouble(), (float) target.at(2).toDouble(),
+                            (float) cam["fov"].toDouble(), (float) cam["width"].toDouble(), (float) cam["height"].toDouble());
             //(float near, float far, float eye_x, float eye_y, float eye_z, float up_x, float up_y, float up_z,
            // float center_x, float center_y, float center_z, float fov, float width, float height)
 //    sceneTemp->camera->center_x = (float) target.at(0).toDouble();
@@ -164,16 +162,19 @@ Scene* JsonParser::parse(const char* name) {
 //    sceneTemp->camera->near = 0.01;
 //    sceneTemp->camera->far = 1000;
     QJsonArray materials = scene.value(QString("material")).toArray();
+    QMap<QString, Material> *materialsMap = new QMap<QString, Material>();
     for (int i = 0; i < materials.size(); i++) {
-        JsonParser::addMaterials(materials.at(i).toObject(), &sceneGlobal);
+        Material mater = JsonParser::addMaterials(materials.at(i).toObject());
+        materialsMap->insert(mater.getName(), mater);
     }
 
     QJsonArray geom = scene.value(QString("geometry")).toArray();
+    std::vector<Geometry*> *geomets = new std::vector<Geometry*>();
     for (int i = 0; i < geom.size(); i++) {
-        JsonParser::addGeometry(geom.at(i).toObject(), &sceneGlobal);
+        Geometry* geo = JsonParser::addGeometry(geom.at(i).toObject(), materialsMap);
+        geomets->push_back(geo);
     }
-
-    return &sceneGlobal;
+    return new Scene(materialsMap, geomets, camera);
 }
 
 
@@ -182,19 +183,20 @@ bool comparator(Intersection a, Intersection b) {
 }
 
 
-void JsonParser::render(float width, float height, Scene *scene) {
+void JsonParser::render(float width, float height, Scene* scene) {
     QImage output = QImage(width, height, QImage::Format_RGB888);
     output.fill(Qt::black);
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
-            ray currRay = scene->getCamera().raycast(col, row, width, height);
+            ray currRay = scene->getCamera()->raycast(col, row, width, height);
             std::vector<Intersection> intersections = std::vector<Intersection>();
-            for (int a = 0; a < scene->getGeometries()->size(); a++) {
-               Geometry* geom = scene->getGeometries()->at(a);
+            std::vector<Geometry*> *geoms = scene->getGeometries();
+            for (int a = 0; a < geoms->size(); a++){
+               Geometry* geom = geoms->at(a);
 
                Intersection currIntersection = geom->getIntersection(currRay);
 
-                if (currIntersection.getT() >= 0 && !currIntersection.getGeometry()->getMaterial()->isEmissive()) {
+                if (currIntersection.getT() >= 0 && !currIntersection.getGeometry()->getMaterial().isEmissive()) {
                     intersections.push_back(currIntersection);
                 }
             }
@@ -202,9 +204,9 @@ void JsonParser::render(float width, float height, Scene *scene) {
                 std::sort(intersections.begin(), intersections.end(), comparator);
                 //color pixel based on closest geometry
                 Geometry * closest = intersections[0].getGeometry();
-                QRgb color = qRgb(closest->getMaterial()->getR(),
-                                  closest->getMaterial()->getG(),
-                                  closest->getMaterial()->getB());
+                QRgb color = qRgb(closest->getMaterial().getR(),
+                                  closest->getMaterial().getG(),
+                                  closest->getMaterial().getB());
                 output.setPixel(col, row, color);
             }
 

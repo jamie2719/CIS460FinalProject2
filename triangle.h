@@ -5,16 +5,16 @@
 class Triangle : public Geometry
 {
 public:
-    Triangle(char *name, glm::mat4 transform_mat, Material *material, glm::vec4 a, glm::vec4 b, glm::vec4 c);
+    Triangle(QString name, glm::mat4 transform_mat, Material material, glm::vec4 a, glm::vec4 b, glm::vec4 c);
 
     virtual Intersection getIntersection(ray inputRay);
 
-    virtual Material *getMaterial();
+    virtual Material getMaterial();
 private:
 
     glm::mat4 transform_mat;
-    const char *name;
-    Material *material;
+    QString name;
+    Material material;
     glm::vec4 a;
     glm::vec4 b;
     glm::vec4 c;

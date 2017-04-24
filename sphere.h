@@ -5,16 +5,16 @@
 class Sphere : public Geometry
 {
 public:
-    Sphere(char *name, glm::mat4 transform_mat, Material *material);
+    Sphere(QString name, glm::mat4 transform_mat, Material material);
     ~Sphere();
 
     Intersection getIntersection(ray inputRay);
 
-    Material *getMaterial();
+    Material getMaterial();
 private:
     glm::mat4 transform_mat;
-    const char* name;
-    Material *material;
+    QString name;
+    Material material;
 };
 
 #endif // SPHERE_H

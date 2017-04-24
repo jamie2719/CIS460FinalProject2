@@ -12,7 +12,7 @@ public:
     Geometry();
     ~Geometry();
     virtual Intersection getIntersection(ray inputRay) = 0; //jess's class intersection
-    virtual Material *getMaterial() = 0;
+    virtual Material getMaterial() = 0;
 
 private:
 //    glm::mat4 transform_mat;
