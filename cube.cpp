@@ -29,7 +29,8 @@ Intersection Cube::getIntersection(ray inputRay) {
     glm::vec4 p;
     glm::vec4 normal;
 
-    glm::mat4 invMat = glm::inverse(*this->getTransformMat());
+    glm::mat4 tmat = *this->getTransformMat();
+    glm::mat4 invMat = glm::inverse(tmat);
 
     ray transformedRay = inputRay.getTransformedCopy(invMat);
 
@@ -145,7 +146,7 @@ Intersection Cube::getIntersection(ray inputRay) {
 
 
     //convert p and normal to world space
-    glm::mat4 inverse = glm::inverse(*this->getTransformMat());
+    glm::mat4 inverse = glm::inverse(tmat);
     glm::mat4 inverse_transpose = glm::transpose(inverse);
 
     p = p * inverse;

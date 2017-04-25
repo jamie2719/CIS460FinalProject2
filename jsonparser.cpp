@@ -243,10 +243,14 @@ void JsonParser::render(float width, float height, Scene* scene) {
 //                                  closest->getMaterial().getG() * 255,
 //                                  closest->getMaterial().getB() * 255);
                 glm::vec4 normal = closest.getNormal();
-                float E = lambert(closest, lights);
-                int r = CLAMP(closest.getNormal()[0] * 255 * E);
-                int g = CLAMP(closest.getNormal()[1] * 255 * E);
-                int b = CLAMP(closest.getNormal()[2] * 255 * E);
+                //float E = lambert(closest, lights);
+                /*int r = CLAMP(closest.getGeometry()->getMaterial().getR() * 255 * E);
+                int g = CLAMP(closest.getGeometry()->getMaterial().getG() * 255 * E);
+                int b = CLAMP(closest.getGeometry()->getMaterial().getB() * 255 * E);
+*/
+                int r = CLAMP(normal[0] * 255);
+                int g = CLAMP(normal[1] * 255);
+                int b = CLAMP(normal[2] * 255);
 
 
                 QColor color = QColor(r, g, b);
