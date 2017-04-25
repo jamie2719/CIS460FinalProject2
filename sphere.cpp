@@ -43,13 +43,13 @@ Intersection Sphere::getIntersection(ray inputRay) {
     float b = 2 * (xd*x0 + yd*y0 + zd*z0);
     float c = pow(x0, 2.0) + pow(y0, 2.0) + pow(z0, 2.0) - .25;
 
-    float disc = pow(b, 2.0) - 4.0 * a * c;
+    float disc = pow(b, 2.0) - (4.0 * a * c);
     if (disc < 0) {
         return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
     else {
-        float t0 = b * -1.0 - (sqrtf(disc))/(2 * a);
-        float t1 = b * -1.0 + (sqrtf(disc))/(2 * a);
+        float t0 = (b * -1.0 - (sqrtf(disc)))/(2 * a);
+        float t1 = (b * -1.0 + (sqrtf(disc)))/(2 * a);
 
         if (t0 > 0) {
             //check which is smaller
