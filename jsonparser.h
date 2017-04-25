@@ -14,6 +14,8 @@
 #include "camera.h"
 #include "scene.h"
 
+#define CLAMP(x) ((x) > 255? 255: ((x) < 0? 0: (x)));
+#define CLAMPL(x) ((x) > 1? 1: ((x) < 0? 0: (x)));
 
 //typedef struct camera_struct {
 //  float near, far;

@@ -26,15 +26,15 @@ Camera::Camera(float near, float far, float eye_x, float eye_y, float eye_z, flo
 
 ray Camera::raycast(float px, float py, float width, float height) {
    // compute viewMatrix
-    glm::mat4 viewMat = computeViewMatrix();
+    glm::mat4 viewMat = glm::transpose(computeViewMatrix());
 
-   float sx = (2 * px/width) - 1.0;
-   float sy = 1.0 - (2 * py/height);
+   float sx = (2.f * px/width) - 1.0f;
+   float sy = 1.0f - (2.f * py/height);
 
-   glm::vec4 eye = glm::vec4(this->eye_x, this->eye_y, this->eye_z, 0);
+   glm::vec4 eye = glm::vec4(this->eye_x, this->eye_y, this->eye_z, 1);
    float t = .5; // can be any float apparently???
 
-   glm::mat4 transposeViewMatrix = glm::transpose(viewMat);
+  // glm::mat4 transposeViewMatrix = glm::transpose(viewMat);
 
    glm::vec4 ref = eye + t * viewMat[2];
    float len =  (float)((ref - eye).length());
@@ -55,14 +55,13 @@ glm::mat4 Camera::computeViewMatrix() {
     glm::vec3 F = glm::vec3(this->center_x - this->eye_x,
                             this->center_y - this->eye_y,
                             this->center_z - this->eye_z);
-    glm::vec3 normF = F / (float)F.length();
+    glm::vec3 normF = glm::normalize(F);
     glm::vec3 UP = glm::vec3(this->up_x, this->up_y, this->up_z);
-    glm::vec3 normUP = UP / (float)UP.length();
+    glm::vec3 normUP = glm::normalize(UP);
 
     // compute cross product
-    glm::vec3 s = glm::cross(normF, normUP);
-    glm::vec3 normS = s / (float)s.length();
-    glm::vec3 u = glm::cross(normS, normF);
+    glm::vec3 s = glm::normalize(glm::cross(normF, normUP));
+    glm::vec3 u = glm::normalize(glm::cross(s, normF));
 
     // construct matrix now
     glm::vec4 v1 = glm::vec4(s[0], u[0], normF[0], 0);

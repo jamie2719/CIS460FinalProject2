@@ -10,11 +10,11 @@ public:
 
     Intersection getIntersection(ray inputRay);
 
-    Material getMaterial();
+//    Material getMaterial();
 private:
-    glm::mat4 transform_mat;
-    QString name;
-    Material material;
+   // glm::mat4 transform_mat;
+   // QString name;
+   // Material material;
 };
 
 #endif // SPHERE_H

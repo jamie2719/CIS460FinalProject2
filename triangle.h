@@ -9,12 +9,12 @@ public:
 
     virtual Intersection getIntersection(ray inputRay);
 
-    virtual Material getMaterial();
+//    virtual Material getMaterial();
 private:
 
-    glm::mat4 transform_mat;
-    QString name;
-    Material material;
+   // glm::mat4 transform_mat;
+  //  QString name;
+  //  Material material;
     glm::vec4 a;
     glm::vec4 b;
     glm::vec4 c;

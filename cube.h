@@ -9,11 +9,13 @@ public:
 
     virtual Intersection getIntersection(ray inputRay);
 
-    virtual Material getMaterial();
+//    Material getMaterial();
+
+//    glm::mat4 * getTransformMat();
 private:
-    glm::mat4 transform_mat;
-    QString name;
-    Material material;
+ //   glm::mat4 transform_mat;
+    //QString name;
+   // Material material;
 };
 
 #endif // CUBE_H

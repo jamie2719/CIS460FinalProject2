@@ -9,11 +9,11 @@ public:
 
     virtual Intersection getIntersection(ray inputRay);
 
-    virtual Material getMaterial();
+//    virtual Material getMaterial();
 private:
-    glm::mat4 transform_mat;
-    QString name;
-    Material material;
+    //glm::mat4 transform_mat;
+ //   QString name;
+   // Material material;
 };
 
 #endif // SQUAREPLANE_H

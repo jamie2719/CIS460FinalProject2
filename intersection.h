@@ -23,6 +23,8 @@ public:
 
     float getT();
     Geometry *getGeometry();
+    glm::vec4 getNormal();
+    glm::vec4 getIntersection();
 
 private:
     glm::vec4 pointOfIntersection; // should take the form of (x, y, z, 1)

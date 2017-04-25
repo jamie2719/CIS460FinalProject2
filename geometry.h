@@ -10,16 +10,21 @@
 class Geometry {
 public:
     Geometry();
+    //Geometry(glm::mat4 transform_mat, Material material);
     ~Geometry();
-    virtual Intersection getIntersection(ray inputRay) = 0; //jess's class intersection
-    virtual Material getMaterial() = 0;
+    virtual Intersection getIntersection(ray inputRay) = 0;
+    Material getMaterial();
+    void setMaterial(Material material);
+    glm::mat4 * getTransformMat();
+    void setMat(glm::mat4 transform_mat);
+    void setName(QString name);
 
 private:
-//    glm::mat4 transform_mat;
-//    Material *material;
+    glm::mat4 transform_mat;
+    Material material;
+    QString name;
 };
 
 
-//need to store transformation matrix
 
 #endif // GEOMETRY_H

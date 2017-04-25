@@ -8,6 +8,8 @@
 #include "QImage"
 #include <iostream>
 
+
+
 JsonParser::JsonParser()
 {
 
@@ -137,8 +139,7 @@ Scene* JsonParser::parse(const char* name) {
     QJsonArray target = cam["target"].toArray();
     QJsonArray worldUp = cam["worldUp"].toArray();
     QJsonArray eye = cam["eye"].toArray();
-    Camera *camera;
-    *camera = Camera(.01, 1000,
+    Camera *camera = new Camera(.01, 1000,
                             (float) eye.at(0).toDouble(), (float) eye.at(1).toDouble(), (float) eye.at(2).toDouble(),
                             (float) worldUp.at(0).toDouble(), (float) worldUp.at(1).toDouble(), (float) worldUp.at(2).toDouble(),
                             (float) target.at(0).toDouble(), (float) target.at(1).toDouble(), (float) target.at(2).toDouble(),
@@ -182,6 +183,13 @@ bool comparator(Intersection a, Intersection b) {
     return (a.getT() < b.getT());
 }
 
+//calculates the vector from point of intersection to light
+glm::vec4 lightDirection(Intersection intersection, Geometry* light) {
+    //how to get coordinates of light?
+    //glm::vec4 lightPosition = light->getTransformMat()[3];
+    //glm::vec4 L = lightPosition - intersection.getIntersection();
+}
+
 
 void JsonParser::render(float width, float height, Scene* scene) {
     QImage output = QImage(width, height, QImage::Format_RGB888);
@@ -203,11 +211,17 @@ void JsonParser::render(float width, float height, Scene* scene) {
             if (!intersections.empty()) {
                 std::sort(intersections.begin(), intersections.end(), comparator);
                 //color pixel based on closest geometry
-                Geometry * closest = intersections[0].getGeometry();
-                QRgb color = qRgb(closest->getMaterial().getR(),
-                                  closest->getMaterial().getG(),
-                                  closest->getMaterial().getB());
-                output.setPixel(col, row, color);
+                //Geometry * closest = intersections[0].getGeometry();
+                Intersection closest = intersections[0];
+//                QColor color = QColor(closest->getMaterial().getR() * 255,
+//                                  closest->getMaterial().getG() * 255,
+//                                  closest->getMaterial().getB() * 255);
+                glm::vec4 normal = closest.getNormal();
+                int r = CLAMP(closest.getNormal()[0] * 255);
+                int g = CLAMP(closest.getNormal()[1] * 255);
+                int b = CLAMP(closest.getNormal()[2] * 255);
+                QColor color = QColor(r, g, b);
+                output.setPixelColor(col, row, color);
             }
 
         }
