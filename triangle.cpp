@@ -36,7 +36,8 @@ Intersection Triangle::getIntersection(ray inputRay) {
     glm::vec4 p;
     glm::vec4 normal;
 
-    glm::mat4 invMat = glm::inverse(*this->getTransformMat());
+    glm::mat4 tmat = *this->getTransformMat();
+    glm::mat4 invMat = glm::inverse(tmat);
     ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);

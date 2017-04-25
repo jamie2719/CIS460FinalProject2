@@ -25,9 +25,7 @@ Intersection Sphere::getIntersection(ray inputRay) {
     float t;
     glm::vec4 p;
     glm::vec4 normal;
-
     glm::mat4 invMat = glm::inverse(*this->getTransformMat());
-
     ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     float x0 = transformedRay.getOrigin()[0];
@@ -43,13 +41,13 @@ Intersection Sphere::getIntersection(ray inputRay) {
     float b = 2 * (xd*x0 + yd*y0 + zd*z0);
     float c = pow(x0, 2.0) + pow(y0, 2.0) + pow(z0, 2.0) - .25;
 
-    float disc = pow(b, 2.0) - 4.0 * a * c;
+    float disc = pow(b, 2.0) - (4.0 * a * c);
     if (disc < 0) {
         return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
     else {
-        float t0 = b * -1.0 - (sqrtf(disc))/(2 * a);
-        float t1 = b * -1.0 + (sqrtf(disc))/(2 * a);
+        float t0 = ((b * -1.0) - (sqrtf(disc)))/(2 * a);
+        float t1 = ((b * -1.0) + (sqrtf(disc)))/(2 * a);
 
         if (t0 > 0) {
             //check which is smaller
@@ -64,9 +62,9 @@ Intersection Sphere::getIntersection(ray inputRay) {
             //use t1
             t = t1;
         }
-        p = transformedRay.getOrigin() + t * transformedRay.getDirection();
+        p = transformedRay.getOrigin() + (t * transformedRay.getDirection());
         normal = glm::normalize(p);
-
+        normal[3]=0;
         glm::mat4 inverse = glm::inverse(*this->getTransformMat());
         glm::mat4 inverse_transpose = glm::transpose(inverse);
 
