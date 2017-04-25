@@ -171,11 +171,17 @@ Scene* JsonParser::parse(const char* name) {
 
     QJsonArray geom = scene.value(QString("geometry")).toArray();
     std::vector<Geometry*> *geomets = new std::vector<Geometry*>();
+    std::vector<Geometry*> *lights = new std::vector<Geometry*>();
     for (int i = 0; i < geom.size(); i++) {
         Geometry* geo = JsonParser::addGeometry(geom.at(i).toObject(), materialsMap);
-        geomets->push_back(geo);
+        if (geo->getMaterial().isEmissive()) {
+            lights->push_back(geo);
+        }
+        else {
+            geomets->push_back(geo);
+        }
     }
-    return new Scene(materialsMap, geomets, camera);
+    return new Scene(materialsMap, geomets, lights, camera);
 }
 
 
@@ -186,8 +192,22 @@ bool comparator(Intersection a, Intersection b) {
 //calculates the vector from point of intersection to light
 glm::vec4 lightDirection(Intersection intersection, Geometry* light) {
     //how to get coordinates of light?
-    //glm::vec4 lightPosition = light->getTransformMat()[3];
-    //glm::vec4 L = lightPosition - intersection.getIntersection();
+    glm::mat4 *mat = light->getTransformMat();
+    glm::vec4 lightPosition = mat->operator [](3);
+            //glm::vec4((float)light->getTransformMat()[3][0], light->getTransformMat()[3][1], light->getTransformMat()[3][2], 1);
+    glm::vec4 L = lightPosition - intersection.getIntersection();
+    return L;
+}
+
+//iterate through vector of lights in scene and calculate total light for a point with given normal using Lambert's law
+float lambert(Intersection intersection, std::vector<Geometry*> *lights) {
+    float E = .1;
+    for (int i = 0; i < lights->size(); i++) {
+        Geometry * currLight = lights->at(i);
+        glm::vec4 L = lightDirection(intersection, currLight);
+        E += CLAMPL(glm::dot(intersection.getNormal(), L));
+    }
+    return E;
 }
 
 
@@ -198,14 +218,20 @@ void JsonParser::render(float width, float height, Scene* scene) {
         for (int col = 0; col < width; col++) {
             ray currRay = scene->getCamera()->raycast(col, row, width, height);
             std::vector<Intersection> intersections = std::vector<Intersection>();
+            std::vector<Geometry*> *lights = scene->getLights();
             std::vector<Geometry*> *geoms = scene->getGeometries();
             for (int a = 0; a < geoms->size(); a++){
                Geometry* geom = geoms->at(a);
 
                Intersection currIntersection = geom->getIntersection(currRay);
 
-                if (currIntersection.getT() >= 0 && !currIntersection.getGeometry()->getMaterial().isEmissive()) {
-                    intersections.push_back(currIntersection);
+                if (currIntersection.getT() >= 0) {
+                    if (!currIntersection.getGeometry()->getMaterial().isEmissive()) {
+                        intersections.push_back(currIntersection);
+                    }
+                    else {
+
+                    }
                 }
             }
             if (!intersections.empty()) {
@@ -217,9 +243,12 @@ void JsonParser::render(float width, float height, Scene* scene) {
 //                                  closest->getMaterial().getG() * 255,
 //                                  closest->getMaterial().getB() * 255);
                 glm::vec4 normal = closest.getNormal();
-                int r = CLAMP(closest.getNormal()[0] * 255);
-                int g = CLAMP(closest.getNormal()[1] * 255);
-                int b = CLAMP(closest.getNormal()[2] * 255);
+                float E = lambert(closest, lights);
+                int r = CLAMP(closest.getNormal()[0] * 255 * E);
+                int g = CLAMP(closest.getNormal()[1] * 255 * E);
+                int b = CLAMP(closest.getNormal()[2] * 255 * E);
+
+
                 QColor color = QColor(r, g, b);
                 output.setPixelColor(col, row, color);
             }
