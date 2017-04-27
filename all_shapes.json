@@ -47,16 +47,6 @@
         "material": "textured_diffuse"
       },
       {
-        "type": "obj",
-        "name": "OBJ",
-        "filename": "triangle.obj",
-        "transform": {
-          "translate": [1.5, 0, 0],
-          "scale": [1, 1, 1]
-        },
-        "material": "textured_diffuse"
-      },
-      {
         "type": "sphere",
         "name": "Light Source",
         "transform": {
