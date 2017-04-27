@@ -6,7 +6,7 @@ class Material
 {
 public:
     Material();
-    Material(QString type, QString name, int r, int g, int b, QString texture, QString normal, bool emissive);
+    Material(QString type, QString name, float r, float g, float b, QString texture, QString normal, bool emissive);
     QString getType();
     QString getName();
     int getR();
@@ -18,9 +18,9 @@ public:
 private:
     QString type;
     QString name;
-    int r;
-    int g;
-    int b;
+    float r;
+    float g;
+    float b;
     QString texture;
     QString normal;
     bool emissive;

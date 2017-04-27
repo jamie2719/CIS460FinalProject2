@@ -21,6 +21,10 @@ Material Geometry::getMaterial() {
     return this->material;
 }
 
+QString Geometry::getType() {
+    return this->type;
+}
+
 
 void Geometry::setMaterial(Material material) {
     this->material = material;
@@ -32,4 +36,8 @@ void Geometry::setMat(glm::mat4 transform_mat) {
 
 void Geometry::setName(QString name) {
     this->name = name;
+}
+
+void Geometry::setType(QString type) {
+    this->type = type;
 }

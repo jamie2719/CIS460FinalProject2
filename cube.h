@@ -5,7 +5,7 @@
 class Cube : public Geometry
 {
 public:
-    Cube(QString name, glm::mat4 transform_mat, Material material);
+    Cube(QString name, glm::mat4 transform_mat, Material material, QString type);
 
     virtual Intersection getIntersection(ray inputRay);
 

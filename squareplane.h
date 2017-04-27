@@ -5,7 +5,7 @@
 class SquarePlane : public Geometry
 {
 public:
-    SquarePlane(QString name, glm::mat4 transform_mat, Material material);
+    SquarePlane(QString name, glm::mat4 transform_mat, Material material, QString type);
 
     virtual Intersection getIntersection(ray inputRay);
 

@@ -18,14 +18,14 @@ JsonParser::JsonParser()
 Material JsonParser::addMaterials(QJsonObject mat) {
     QString type = mat["type"].toString();
     QString name = mat["name"].toString();
-    int r = 1;
-    int g = 1;
-    int b = 1;
+    float r = 1;
+    float g = 1;
+    float b = 1;
     if (mat.contains("baseColor")) {
         QJsonArray baseColor = mat["baseColor"].toArray();
-        r = baseColor.at(0).toInt();
-        g = baseColor.at(1).toInt();
-        b = baseColor.at(2).toInt();
+        r = (float)baseColor.at(0).toDouble();
+        g = (float)baseColor.at(1).toDouble();
+        b = (float)baseColor.at(2).toDouble();
     }
     bool emiss = false;
     Material newMat = Material(type, name, r, g, b, NULL, NULL, emiss);
@@ -61,8 +61,12 @@ Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *ma
         shapeMaterial = materialsMap->value(shape["material"].toString().toLatin1().data());
     }
     QString name;
+    QString type;
     if(shape.contains("name")){
         name = shape["name"].toString();
+    }
+    if(shape.contains("type")){
+        type = shape["type"].toString();
     }
     QJsonObject transform = shape["transform"].toObject();
     glm::mat4 tmat = glm::mat4();
@@ -80,51 +84,55 @@ Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *ma
                                (float)translate[1].toDouble(),
                 (float)translate[2].toDouble())); //check version of glm
 
-
         }
         if (transform.contains("scale")) {
             QJsonArray scale = transform["scale"].toArray();
             smat = glm::scale(smat, glm::vec3((float)scale[0].toDouble(),
                     (float)scale[1].toDouble(),
                     (float)scale[2].toDouble()));
+        // tmat = tmat * trmat;
+    }
+    if (transform.contains("scale")) {
+        QJsonArray scale = transform["scale"].toArray();
+        smat = glm::scale(smat, glm::vec3((float)scale[0].toDouble(),
+                          (float)scale[1].toDouble(),
+                (float)scale[2].toDouble()));
+        //tmat = tmat * smat;
+    }
+    if(transform.contains("rotate")) {
+        QJsonArray rotate = transform["rotate"].toArray();
+        rmatx = glm::rotate(rmat, (float)rotate[0].toDouble(),
+                glm::vec3(0, 0, 0));
+        rmaty = glm::rotate(rmat, (float)rotate[1].toDouble(),
+                glm::vec3(0, 0, 0));
+        rmatz = glm::rotate(rmat, (float)rotate[2].toDouble(),
+                glm::vec3(0, 0, 0));
+        rmat = rmatx*rmaty*rmatz;
 
-        }
-        if(transform.contains("rotate")) {
-            QJsonArray rotate = transform["rotate"].toArray();
-            rmatx = glm::rotate(rmat, (float)rotate[0].toDouble(),
-                    glm::vec3(0, 0, 0));
-            rmaty = glm::rotate(rmat, (float)rotate[1].toDouble(),
-                    glm::vec3(0, 0, 0));
-            rmatz = glm::rotate(rmat, (float)rotate[2].toDouble(),
-                    glm::vec3(0, 0, 0));
-            rmat = rmatx*rmaty;
-            rmat = rmat*rmatz;
 
-        }
+        // tmat = tmat * rmat;
+    }
+    tmat = trmat * rmat * smat;
 
-         tmat = trmat * rmat * smat;
+    if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
+        //           Geometry *geometry;
+        Sphere *geometry = new Sphere(name, tmat, shapeMaterial, type);
+        return geometry;
+    } else if(QString::compare(shape["type"].toString(),("cube")) == 0) {
+        Cube *geometry = new Cube(name, tmat, shapeMaterial, type);
+        return geometry;
+    } else if(QString::compare(shape["type"].toString(),("triangle")) == 0) {
+        //geometry = Triangle(name, tmat, shapeMaterial, vec4 vec4 vec 4 type);
+        //add tinyobj stuff to load an obj file
+    } else if(QString::compare(shape["type"].toString(),("square")) == 0) {
+        SquarePlane *geometry = new SquarePlane(name, tmat, shapeMaterial, type);
+        return geometry;
+    } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
+        Mesh *geometry = new Mesh(name, tmat, shapeMaterial, type);
+        return geometry;
+        //add tinyobj stuff to load an obj file
+    }
 
-        if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
-//           Geometry *geometry;
-           Sphere *geometry = new Sphere(name, tmat, shapeMaterial);
-           return geometry;
-        } else if(QString::compare(shape["type"].toString(),("cube")) == 0) {
-            Cube *geometry = new Cube(name, tmat, shapeMaterial);
-            return geometry;
-        } else if(QString::compare(shape["type"].toString(),("triangle")) == 0) {
-            //geometry = Triangle(name, tmat, shapeMaterial);
-            //add tinyobj stuff to load an obj file
-        } else if(QString::compare(shape["type"].toString(),("square")) == 0) {
-            SquarePlane *geometry = new SquarePlane(name, tmat, shapeMaterial);
-            return geometry;
-        } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
-            const char* filename = shape["filename"].toString().toStdString().c_str();
-            Mesh *geometry = new Mesh(name, tmat, shapeMaterial);
-            geometry->setObjFilename(filename);
-            geometry->loadObject();;
-            return geometry;
-            //add tinyobj stuff to load an obj file
-        }
 }
 
 Scene* JsonParser::parse(const char* name) {

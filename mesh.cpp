@@ -1,7 +1,7 @@
 #include "mesh.h"
 
 
-Mesh::Mesh(QString name, glm::mat4 transform_mat, Material material) : Geometry()
+Mesh::Mesh(QString name, glm::mat4 transform_mat, Material material, QString type) : Geometry()
 {
     //this->transform_mat = transform_mat;
     this->setMat(transform_mat);
@@ -13,6 +13,8 @@ Mesh::Mesh(QString name, glm::mat4 transform_mat, Material material) : Geometry(
     this->shapes = std::vector<tinyobj::shape_t>();
     this->materials = std::vector<tinyobj::material_t>();
 
+
+    this->setType(type);
 }
 
 //Material Mesh::getMaterial() {
