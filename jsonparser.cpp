@@ -220,13 +220,14 @@ void JsonParser::render(float width, float height, Scene* scene) {
 //                                  closest->getMaterial().getG() * 255,
 //                                  closest->getMaterial().getB() * 255);
                 glm::vec4 normal = closest.getNormal();
+
+                // texture mapping
                 int r = CLAMP(closest.getNormal()[0] * 255);
                 int g = CLAMP(closest.getNormal()[1] * 255);
                 int b = CLAMP(closest.getNormal()[2] * 255);
                 QColor color = QColor(r, g, b);
                 output.setPixelColor(col, row, color);
             }
-
         }
     }
     // save image
