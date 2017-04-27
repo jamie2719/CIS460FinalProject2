@@ -69,9 +69,10 @@ Intersection Sphere::getIntersection(ray inputRay) {
         glm::mat4 inverse_transpose = glm::transpose(inverse);
 
         p = inverse * p; //NOT TRANSPOSE
+        p[3] = 1;
         normal = inverse_transpose * normal;
     }
 
-    return Intersection(p, normal, t, this);
+    return Intersection(p, glm::normalize(normal), t, this);
 
 }

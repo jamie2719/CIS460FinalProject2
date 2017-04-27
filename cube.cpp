@@ -34,13 +34,13 @@ Intersection Cube::getIntersection(ray inputRay) {
 
     ray transformedRay = inputRay.getTransformedCopy(invMat);
 
-    float x0 = transformedRay.getOrigin().operator [](0);
-    float y0 = transformedRay.getOrigin().operator [](1);
-    float z0 = transformedRay.getOrigin().operator [](2);
+    float x0 = transformedRay.getOrigin()[0];
+    float y0 = transformedRay.getOrigin()[1];
+    float z0 = transformedRay.getOrigin()[2];
 
-    float xd = transformedRay.getDirection().operator [](0);
-    float yd = transformedRay.getDirection().operator [](1);
-    float zd = transformedRay.getDirection().operator [](2);
+    float xd = transformedRay.getDirection()[0];
+    float yd = transformedRay.getDirection()[1];
+    float zd = transformedRay.getDirection()[2];
 
 
     //x slab
@@ -149,10 +149,10 @@ Intersection Cube::getIntersection(ray inputRay) {
     glm::mat4 inverse = glm::inverse(tmat);
     glm::mat4 inverse_transpose = glm::transpose(inverse);
 
-    p = p * inverse;
-    normal = normal * inverse_transpose;
+    p = inverse * p;
+    normal = inverse_transpose * normal;
 
 
-    return Intersection(p, normal, t_near, (Geometry *)this);
+    return Intersection(p, glm::normalize(normal), t_near, (Geometry *)this);
 
 }

@@ -1,0 +1,3 @@
+MILESTONE 2 HELPLOG (jamiesch, jesspeng, nickjang)
+
+4/18 asked Chloe about subclasses and superclasses and virtual methods

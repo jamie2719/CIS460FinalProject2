@@ -10,9 +10,9 @@ ray::ray(glm::vec4 origin, glm::vec4 direction)
 
 const ray ray::getTransformedCopy(glm::mat4 transformMatrix)
 {
-    //glm::vec4 newOrigin = transformMatrix * this->origin;
+    glm::vec4 newOrigin = transformMatrix * this->origin;
     glm::vec4 newDirection = transformMatrix * this->direction;
-    ray newRay = ray(this->origin, newDirection);
+    ray newRay = ray(newOrigin, newDirection);
     return newRay;
 }
 
