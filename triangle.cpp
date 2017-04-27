@@ -67,7 +67,7 @@ Intersection Triangle::getIntersection(ray inputRay) {
 
         p = p * inverse;
         normal = normal * inverse_transpose;
-        return Intersection(p, normal, t, this);
+        return Intersection(p, glm::normalize(normal), t, this);
     }
 }
 
