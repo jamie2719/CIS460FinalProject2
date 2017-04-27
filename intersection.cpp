@@ -13,4 +13,16 @@ float Intersection::getT() {
     return this->t;
 }
 
+Geometry * Intersection::getGeometry() {
+    return this->geometry;
+}
+
+glm::vec4 Intersection::getNormal() {
+    return this->surfaceNormal;
+}
+
+
+glm::vec4 Intersection::getIntersection() {
+    return this->pointOfIntersection;
+}
 

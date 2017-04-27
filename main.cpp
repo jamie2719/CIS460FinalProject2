@@ -6,12 +6,15 @@ int main(int argc, char *argv[])
 {
 
     JsonParser parser = JsonParser();
-    scene_t scene = parser.parse(argv[1]);
+    Scene* scene = parser.parse(argv[1]);
+
+    //parser.parse(argv[1]);
+
     float width = atof(argv[2]);
     float height = atof(argv[3]);
     parser.render(width, height, scene);
 
-//    QApplication a(argc, argv);
+    //QApplication a(argc, argv);
 //    MainWindow w;
 //    w.show();
 

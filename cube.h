@@ -5,15 +5,19 @@
 class Cube : public Geometry
 {
 public:
-    Cube(char *name, glm::mat4 transform_mat, Material *material);
+    Cube(QString name, glm::mat4 transform_mat, Material material);
 
     virtual Intersection getIntersection(ray inputRay);
 
-    virtual Material *getMaterial();
+    glm::mat4 computeTextureToObjectMatrix();
+
+//    Material getMaterial();
+
+//    glm::mat4 * getTransformMat();
 private:
-    glm::mat4 transform_mat;
-    const char* name;
-    Material *material;
+ //   glm::mat4 transform_mat;
+    //QString name;
+   // Material material;
 };
 
 #endif // CUBE_H

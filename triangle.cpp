@@ -1,18 +1,21 @@
 #include "triangle.h"
 
-Triangle::Triangle(char *name, glm::mat4 transform_mat, Material *material, glm::vec4 a, glm::vec4 b, glm::vec4 c) : Geometry()
+Triangle::Triangle(QString name, glm::mat4 transform_mat, Material material, glm::vec4 a, glm::vec4 b, glm::vec4 c) : Geometry()
 {
-    this->transform_mat = transform_mat;
-    this->name = name;
     this->a = a;
     this->b = b;
     this->c = c;
-    this->material = material;
+    //this->transform_mat = transform_mat;
+    this->setMat(transform_mat);
+    //this->name = name;
+    //this->material = material;
+    this->setMaterial(material);
+    this->setName(name);
 }
 
-Material *Triangle::getMaterial() {
-    return this->material;
-}
+//Material Triangle::getMaterial() {
+//    return this->material;
+//}
 
 //cross product of 2 vec4s
 glm::vec4 cross(const glm::vec4 &v1, const glm::vec4 &v2) {
@@ -33,7 +36,7 @@ Intersection Triangle::getIntersection(ray inputRay) {
     glm::vec4 p;
     glm::vec4 normal;
 
-    glm::mat4 invMat = glm::inverse(this->transform_mat);
+    glm::mat4 invMat = glm::inverse(*this->getTransformMat());
     ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
@@ -57,14 +60,15 @@ Intersection Triangle::getIntersection(ray inputRay) {
     }
     else {
         //convert p and normal to world space
-        glm::mat4 inverse = glm::inverse(transform_mat);
+        glm::mat4 inverse = glm::inverse(*this->getTransformMat());
         glm::mat4 inverse_transpose = glm::transpose(inverse);
 
         p = p * inverse;
         normal = normal * inverse_transpose;
         return Intersection(p, normal, t, this);
     }
+}
 
-
+glm::mat4 Triangle::computeTextureToObjectMatrix() {
 
 }

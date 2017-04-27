@@ -36,6 +36,8 @@ SOURCES += main.cpp\
     jsonparser.cpp \
     camera.cpp \
     material.cpp \
+    scene.cpp \
+    tiny_obj_loader.cc
 
 HEADERS  += mainwindow.h \
     geometry.h \
@@ -49,6 +51,8 @@ HEADERS  += mainwindow.h \
     jsonparser.h \
     la.h \
     camera.h \
-    material.h
+    material.h \
+    scene.h \
+    tiny_obj_loader.h
 
 FORMS    += mainwindow.ui

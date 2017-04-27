@@ -5,6 +5,7 @@
 class Material
 {
 public:
+    Material();
     Material(QString type, QString name, int r, int g, int b, QString texture, QString normal, bool emissive);
     QString getType();
     QString getName();
