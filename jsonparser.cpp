@@ -37,7 +37,7 @@ Material JsonParser::addMaterials(QJsonObject mat) {
         }
     }
     if(mat.contains("texture")) {
-        char* texture = mat["texture"].toString().toLatin1().data();
+        QString texture = mat["texture"].toString();
         if(mat.contains("normalMap")) {
             QString normal = mat["normalMap"].toString();
             return newMat = Material(type, name, r, g, b, texture, normal, emiss);
@@ -252,23 +252,23 @@ void JsonParser::render(float width, float height, Scene* scene) {
                 //                                  closest->getMaterial().getG() * 255,
                 //                                  closest->getMaterial().getB() * 255);
                 glm::vec4 normal = closest.getNormal();
-                float E = lambert(closest, lights);
-//                int r = CLAMP(closest.getGeometry()->getMaterial().getR() * 255 * E);
-//                int g = CLAMP(closest.getGeometry()->getMaterial().getG() * 255 * E);
-//                int b = CLAMP(closest.getGeometry()->getMaterial().getB() * 255 * E);
+                float E = CLAMPL(lambert(closest, lights));
+                int r = CLAMP(closest.getGeometry()->getMaterial().getR() * 255 * E);
+                int g = CLAMP(closest.getGeometry()->getMaterial().getG() * 255 * E);
+                int b = CLAMP(closest.getGeometry()->getMaterial().getB() * 255 * E);
 
 //                int r = CLAMP(normal[0] * 255);
 //                int g = CLAMP(normal[1] * 255);
 //                int b = CLAMP(normal[2] * 255 );
 
 
+//                float r_e = CLAMPL(E);
+//                int r = CLAMP(E*255);
+//                float g_e = CLAMPL(E);
+//                int g = CLAMP(E*0);
+//                float b_e = CLAMPL(E);
+//                int b = CLAMP(E*0);
 
-                float r_e = CLAMPL(E);
-                int r = CLAMP(r_e*255);
-                float g_e = CLAMPL(E);
-                int g = CLAMP(g_e*0);
-                float b_e = CLAMPL(E);
-                int b = CLAMP(b_e*0);
 
 
                 QColor color = QColor(r, g, b);
