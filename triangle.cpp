@@ -27,7 +27,7 @@ glm::vec4 cross(const glm::vec4 &v1, const glm::vec4 &v2) {
 
 //computes area of a triangle given 3 coordinates (vec4s)
 float area(glm::vec4 p1, glm::vec4 p2, glm::vec4 p3) {
-    return (cross(p1-p2, p3-p2).length())/2.0;
+    return glm::length((cross(p1-p2, p3-p2)))/2.0;
 }
 
 Intersection Triangle::getIntersection(ray inputRay) {

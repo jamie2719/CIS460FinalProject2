@@ -216,7 +216,7 @@ float lambert(Intersection intersection, std::vector<Geometry*> *lights) {
 
 void JsonParser::render(float width, float height, Scene* scene) {
     QImage output = QImage(width, height, QImage::Format_RGB888);
-    output.fill(Qt::white);
+    output.fill(Qt::black);
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
             ray currRay = scene->getCamera()->raycast(col, row, width, height);
