@@ -261,15 +261,14 @@ void JsonParser::render(float width, float height, Scene* scene) {
 //                int g = CLAMP(normal[1] * 255);
 //                int b = CLAMP(normal[2] * 255 );
 
-                if (E < 1) {
 
-                }
-                int r = CLAMPL(E);
-                r = CLAMP(r*255);
-                int g = CLAMPL(E);
-                g = g*0;
-                int b = CLAMPL(E);
-                b = b*0;
+
+                float r_e = CLAMPL(E);
+                int r = CLAMP(r_e*255);
+                float g_e = CLAMPL(E);
+                int g = CLAMP(g_e*0);
+                float b_e = CLAMPL(E);
+                int b = CLAMP(b_e*0);
 
 
                 QColor color = QColor(r, g, b);
