@@ -5,7 +5,7 @@
 class Triangle : public Geometry
 {
 public:
-    Triangle(QString name, glm::mat4 transform_mat, Material material, glm::vec4 a, glm::vec4 b, glm::vec4 c);
+    Triangle(QString name, glm::mat4 transform_mat, Material material, glm::vec4 a, glm::vec4 b, glm::vec4 c, QString type);
 
     virtual Intersection getIntersection(ray inputRay);
 

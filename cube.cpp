@@ -1,6 +1,6 @@
 #include "cube.h"
 
-Cube::Cube(QString name, glm::mat4 transform_mat, Material material) : Geometry() {
+Cube::Cube(QString name, glm::mat4 transform_mat, Material material, QString type) : Geometry() {
  //have to be able to  make cube of any size but get intersection should always test against unit sphere
     //this->transform_mat = transform_mat;
     this->setMat(transform_mat);
@@ -8,6 +8,7 @@ Cube::Cube(QString name, glm::mat4 transform_mat, Material material) : Geometry(
     //this->material = material;
     this->setMaterial(material);
     this->setName(name);
+    this->setType(type);
 }
 
 
