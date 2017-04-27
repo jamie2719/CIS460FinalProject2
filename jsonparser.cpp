@@ -37,7 +37,7 @@ Material JsonParser::addMaterials(QJsonObject mat) {
         }
     }
     if(mat.contains("texture")) {
-        char* texture = mat["texture"].toString().toLatin1().data();
+        QString texture = mat["texture"].toString();
         if(mat.contains("normalMap")) {
             QString normal = mat["normalMap"].toString();
             return newMat = Material(type, name, r, g, b, texture, normal, emiss);
@@ -252,24 +252,24 @@ void JsonParser::render(float width, float height, Scene* scene) {
                 //                                  closest->getMaterial().getG() * 255,
                 //                                  closest->getMaterial().getB() * 255);
                 glm::vec4 normal = closest.getNormal();
-                float E = lambert(closest, lights);
+                //float E = lambert(closest, lights);
 //                int r = CLAMP(closest.getGeometry()->getMaterial().getR() * 255 * E);
 //                int g = CLAMP(closest.getGeometry()->getMaterial().getG() * 255 * E);
 //                int b = CLAMP(closest.getGeometry()->getMaterial().getB() * 255 * E);
 
-//                int r = CLAMP(normal[0] * 255);
-//                int g = CLAMP(normal[1] * 255);
-//                int b = CLAMP(normal[2] * 255 );
+                int r = CLAMP(normal[0] * 255);
+                int g = CLAMP(normal[1] * 255);
+                int b = CLAMP(normal[2] * 255 );
 
-                if (E < 1) {
+//                if (E < 1) {
 
-                }
-                int r = CLAMPL(E);
-                r = CLAMP(r*255);
-                int g = CLAMPL(E);
-                g = g*0;
-                int b = CLAMPL(E);
-                b = b*0;
+//                }
+//                int r = CLAMPL(E);
+//                r = CLAMP(r*255);
+//                int g = CLAMPL(E);
+//                g = g*0;
+//                int b = CLAMPL(E);
+//                b = b*0;
 
 
                 QColor color = QColor(r, g, b);
