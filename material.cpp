@@ -4,7 +4,7 @@ Material::Material(){
 
 }
 
-Material::Material(QString type, QString name, int r, int g, int b, QString texture, QString normal, bool emissive)
+Material::Material(QString type, QString name, float r, float g, float b, QString texture, QString normal, bool emissive)
 {
     this->type = type;
     this->name = name;

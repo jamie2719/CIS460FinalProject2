@@ -14,15 +14,18 @@ public:
     ~Geometry();
     virtual Intersection getIntersection(ray inputRay) = 0;
     Material getMaterial();
+    QString getType();
     void setMaterial(Material material);
     glm::mat4 * getTransformMat();
     void setMat(glm::mat4 transform_mat);
     void setName(QString name);
+    void setType(QString type);
 
 private:
     glm::mat4 transform_mat;
     Material material;
     QString name;
+    QString type;
 };
 
 

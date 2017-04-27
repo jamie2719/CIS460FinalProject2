@@ -18,14 +18,14 @@ JsonParser::JsonParser()
 Material JsonParser::addMaterials(QJsonObject mat) {
     QString type = mat["type"].toString();
     QString name = mat["name"].toString();
-    int r = 1;
-    int g = 1;
-    int b = 1;
+    float r = 1;
+    float g = 1;
+    float b = 1;
     if (mat.contains("baseColor")) {
         QJsonArray baseColor = mat["baseColor"].toArray();
-        r = baseColor.at(0).toInt();
-        g = baseColor.at(1).toInt();
-        b = baseColor.at(2).toInt();
+        r = (float)baseColor.at(0).toDouble();
+        g = (float)baseColor.at(1).toDouble();
+        b = (float)baseColor.at(2).toDouble();
     }
     bool emiss = false;
     Material newMat = Material(type, name, r, g, b, NULL, NULL, emiss);
@@ -61,8 +61,12 @@ Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *ma
         shapeMaterial = materialsMap->value(shape["material"].toString().toLatin1().data());
     }
     QString name;
+    QString type;
     if(shape.contains("name")){
         name = shape["name"].toString();
+    }
+    if(shape.contains("type")){
+        type = shape["type"].toString();
     }
     QJsonObject transform = shape["transform"].toObject();
     glm::mat4 tmat = glm::mat4();
@@ -107,19 +111,19 @@ Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *ma
 
     if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
         //           Geometry *geometry;
-        Sphere *geometry = new Sphere(name, tmat, shapeMaterial);
+        Sphere *geometry = new Sphere(name, tmat, shapeMaterial, type);
         return geometry;
     } else if(QString::compare(shape["type"].toString(),("cube")) == 0) {
-        Cube *geometry = new Cube(name, tmat, shapeMaterial);
+        Cube *geometry = new Cube(name, tmat, shapeMaterial, type);
         return geometry;
     } else if(QString::compare(shape["type"].toString(),("triangle")) == 0) {
-        //geometry = Triangle(name, tmat, shapeMaterial);
+        //geometry = Triangle(name, tmat, shapeMaterial, vec4 vec4 vec 4 type);
         //add tinyobj stuff to load an obj file
     } else if(QString::compare(shape["type"].toString(),("square")) == 0) {
-        SquarePlane *geometry = new SquarePlane(name, tmat, shapeMaterial);
+        SquarePlane *geometry = new SquarePlane(name, tmat, shapeMaterial, type);
         return geometry;
     } else if(QString::compare(shape["type"].toString(),("mesh")) == 0) {
-        Mesh *geometry = new Mesh(name, tmat, shapeMaterial);
+        Mesh *geometry = new Mesh(name, tmat, shapeMaterial, type);
         return geometry;
         //add tinyobj stuff to load an obj file
     }
