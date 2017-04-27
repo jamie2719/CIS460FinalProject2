@@ -18,9 +18,9 @@ JsonParser::JsonParser()
 Material JsonParser::addMaterials(QJsonObject mat) {
     QString type = mat["type"].toString();
     QString name = mat["name"].toString();
-    float r = 1;
-    float g = 1;
-    float b = 1;
+    float r = 1.f;
+    float g = 1.f;
+    float b = 1.f;
     if (mat.contains("baseColor")) {
         QJsonArray baseColor = mat["baseColor"].toArray();
         r = (float)baseColor.at(0).toDouble();
@@ -84,20 +84,13 @@ Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *ma
                                (float)translate[1].toDouble(),
                 (float)translate[2].toDouble())); //check version of glm
 
-        }
-        if (transform.contains("scale")) {
-            QJsonArray scale = transform["scale"].toArray();
-            smat = glm::scale(smat, glm::vec3((float)scale[0].toDouble(),
-                    (float)scale[1].toDouble(),
-                    (float)scale[2].toDouble()));
-        // tmat = tmat * trmat;
     }
     if (transform.contains("scale")) {
         QJsonArray scale = transform["scale"].toArray();
         smat = glm::scale(smat, glm::vec3((float)scale[0].toDouble(),
                           (float)scale[1].toDouble(),
                 (float)scale[2].toDouble()));
-        //tmat = tmat * smat;
+        // tmat = tmat * trmat;
     }
     if(transform.contains("rotate")) {
         QJsonArray rotate = transform["rotate"].toArray();
@@ -204,8 +197,8 @@ glm::vec3 lightDirection(Intersection intersection, Geometry* light) {
     //how to get coordinates of light?
     glm::mat4 *mat = light->getTransformMat();
     glm::vec3 lightPosition = glm::vec3(mat->operator [](3));
-    //glm::vec4((float)light->getTransformMat()[3][0], light->getTransformMat()[3][1], light->getTransformMat()[3][2], 1);
-    glm::vec3 L = lightPosition - glm::vec3(intersection.getIntersection());
+            //glm::vec4((float)light->getTransformMat()[3][0], light->getTransformMat()[3][1], light->getTransformMat()[3][2], 1);
+            glm::vec3 L = lightPosition - glm::vec3(intersection.getIntersection());
     return L;
 }
 
@@ -214,7 +207,7 @@ float lambert(Intersection intersection, std::vector<Geometry*> *lights) {
     float E = 0.1;
     for (int i = 0; i < lights->size(); i++) {
         Geometry * currLight = lights->at(i);
-//        glm::vec3 L = lightDirection(intersection, currLight);
+        //        glm::vec3 L = lightDirection(intersection, currLight);
         glm::vec3 L(0, 1, 0);
         E += CLAMPL(glm::dot(glm::normalize(glm::vec3(intersection.getNormal())), glm::normalize(L)));
     }
@@ -224,16 +217,16 @@ float lambert(Intersection intersection, std::vector<Geometry*> *lights) {
 
 void JsonParser::render(float width, float height, Scene* scene) {
     QImage output = QImage(width, height, QImage::Format_RGB888);
-    output.fill(Qt::black);
+    output.fill(Qt::blue);
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
             ray currRay = scene->getCamera()->raycast(col, row, width, height);
-//            int r = CLAMP(currRay.getDirection()[0] * 255);
-//            int g = CLAMP(currRay.getDirection()[1] * 255);
-//            int b = CLAMP(currRay.getDirection()[2] * 255);
-//            QColor color = QColor(r, g, b);
-//            output.setPixelColor(col, row, color);
-//            continue;
+            //            int r = CLAMP(currRay.getDirection()[0] * 255);
+            //            int g = CLAMP(currRay.getDirection()[1] * 255);
+            //            int b = CLAMP(currRay.getDirection()[2] * 255);
+            //            QColor color = QColor(r, g, b);
+            //            output.setPixelColor(col, row, color);
+            //            continue;
             std::vector<Intersection> intersections = std::vector<Intersection>();
             std::vector<Geometry*> *lights = scene->getLights();
             std::vector<Geometry*> *geoms = scene->getGeometries();
@@ -265,17 +258,17 @@ void JsonParser::render(float width, float height, Scene* scene) {
                 int g = CLAMP(closest.getGeometry()->getMaterial().getG() * 255 * E);
                 int b = CLAMP(closest.getGeometry()->getMaterial().getB() * 255 * E);
 
-//                int r = CLAMP(normal[0] * 255);
-//                int g = CLAMP(normal[1] * 255);
-//                int b = CLAMP(normal[2] * 255 );
+                //                int r = CLAMP(normal[0] * 255);
+                //                int g = CLAMP(normal[1] * 255);
+                //                int b = CLAMP(normal[2] * 255 );
 
 
-//                float r_e = CLAMPL(E);
-//                int r = CLAMP(E*255);
-//                float g_e = CLAMPL(E);
-//                int g = CLAMP(E*0);
-//                float b_e = CLAMPL(E);
-//                int b = CLAMP(E*0);
+                //                float r_e = CLAMPL(E);
+                //                int r = CLAMP(E*255);
+                //                float g_e = CLAMPL(E);
+                //                int g = CLAMP(E*0);
+                //                float b_e = CLAMPL(E);
+                //                int b = CLAMP(E*0);
 
 
 
