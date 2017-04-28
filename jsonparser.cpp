@@ -94,18 +94,18 @@ Geometry* JsonParser::addGeometry(QJsonObject shape, QMap<QString, Material> *ma
     }
     if(transform.contains("rotate")) {
         QJsonArray rotate = transform["rotate"].toArray();
-        rmatx = glm::rotate(rmat, (float)rotate[0].toDouble(),
-                glm::vec3(0, 0, 0));
-        rmaty = glm::rotate(rmat, (float)rotate[1].toDouble(),
-                glm::vec3(0, 0, 0));
-        rmatz = glm::rotate(rmat, (float)rotate[2].toDouble(),
-                glm::vec3(0, 0, 0));
+        rmatx = glm::rotate(rmatx, (float)rotate[0].toDouble(),
+                glm::vec3(1, 0, 0));
+        rmaty = glm::rotate(rmaty, (float)rotate[1].toDouble(),
+                glm::vec3(0, 1, 0));
+        rmatz = glm::rotate(rmatz, (float)rotate[2].toDouble(),
+                glm::vec3(0, 0, 1));
         rmat = rmatx*rmaty*rmatz;
 
 
         // tmat = tmat * rmat;
     }
-    tmat = trmat * rmat * smat;
+    tmat = trmat * (rmat * smat);
 
     if(QString::compare(shape["type"].toString(),("sphere")) == 0) {
         //           Geometry *geometry;
@@ -207,8 +207,8 @@ float lambert(Intersection intersection, std::vector<Geometry*> *lights) {
     float E = 0.1;
     for (int i = 0; i < lights->size(); i++) {
         Geometry * currLight = lights->at(i);
-        //        glm::vec3 L = lightDirection(intersection, currLight);
-        glm::vec3 L(0, 1, 0);
+        glm::vec3 L = lightDirection(intersection, currLight);
+
         E += CLAMPL(glm::dot(glm::normalize(glm::vec3(intersection.getNormal())), glm::normalize(L)));
     }
     return E;

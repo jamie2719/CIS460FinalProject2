@@ -151,6 +151,7 @@ Intersection Cube::getIntersection(ray inputRay) {
     glm::mat4 inverse_transpose = glm::transpose(inverse);
 
     p = inverse * p;
+    p[3] = 1;
     normal = inverse_transpose * normal;
 
 

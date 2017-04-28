@@ -38,21 +38,27 @@ ray Camera::raycast(float px, float py, float width, float height) {
 
   // glm::mat4 transposeViewMatrix = glm::transpose(viewMat);
 
-   glm::vec3 F = glm::vec3(this->center_x - this->eye_x, this->center_y - this->eye_y, this->center_z - this->eye_z);
 
-   glm::vec3 ref = eye + t * F;
-   float len =  (float)glm::length(ref - eye); //- (float)glm::length(eye);
+   glm::vec3 ref = glm::vec3(this->center_x, this->center_y, this->center_z);
+   //glm::vec3 F = glm::vec3(this->center_x - this->eye_x, this->center_y - this->eye_y, this->center_z - this->eye_z);
+   glm::vec3 F = ref - eye;
+   glm::vec3 f_norm = glm::normalize(F);
+
+  // glm::vec3 ref = eye + t * F;
+   float len =  (float)glm::length(F); //- (float)glm::length(eye);
    float alpha = this->fov / 2.0;
    float radians = tanf(alpha * M_PI / 180.0);
-   glm::vec3 U = glm::vec3(this->up_x, this->up_y, this->up_z);
+   glm::vec3 up = glm::vec3(this->up_x, this->up_y, this->up_z);
+   glm::vec3 R = glm::normalize(glm::cross(f_norm, up));
+   glm::vec3 U = glm::normalize(glm::cross(R, f_norm));
    glm::vec3 V =  U * len * radians;
 
-   glm::vec3 s = glm::normalize(glm::cross(glm::normalize(F), glm::normalize(U)));
+   //glm::vec3 s = glm::normalize(glm::cross(glm::normalize(F), glm::normalize(U)));
 
-   glm::vec3 H = s * len * (width/height) * radians;
+   glm::vec3 H = R * len * (width/height) * radians;
    glm::vec3 p = ref + (sx * H) + (sy * V);
 
-   glm::vec4 rayOrigin = glm::vec4(eye, 0);
+   glm::vec4 rayOrigin = glm::vec4(eye, 1);
    glm::vec4 rayDirection = glm::vec4(glm::normalize(p - eye), 0);
 
    ray returnedRay = ray(rayOrigin, rayDirection);

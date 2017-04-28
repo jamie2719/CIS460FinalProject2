@@ -25,8 +25,8 @@ Intersection SquarePlane::getIntersection(ray inputRay) {
     ray transformedRay = inputRay.getTransformedCopy(invMat);
 
     glm::vec4 plane_normal = glm::vec4(0, 0, 1, 0);
-    t = (glm::dot(plane_normal, (-1.f  * transformedRay.getOrigin()))/
-         (glm::dot(plane_normal, transformedRay.getDirection())));
+    t = (glm::dot(plane_normal, (glm::vec4(-.5, -.5, 0, 1) - transformedRay.getOrigin())))/
+         (glm::dot(plane_normal, transformedRay.getDirection()));
     p = transformedRay.getOrigin() + t * transformedRay.getDirection();
     normal = plane_normal;
 
@@ -56,7 +56,7 @@ Intersection SquarePlane::getIntersection(ray inputRay) {
 //    }
 
     //if point is not within boundaries of our square plane, there is no intersection
-    if (p.operator [](0) < -.5 || p.operator [](1) < -.5 || p.operator [](0) > .5 || p.operator [](1) > .5) {
+    if (p[0] < -.5 || p[1] < -.5 || p[0] > .5 || p[1] > .5) {
         return Intersection(glm::vec4(0, 0, 0, 0), glm::vec4(0, 0, 0, 0), -1, this);
     }
 
@@ -65,8 +65,9 @@ Intersection SquarePlane::getIntersection(ray inputRay) {
     glm::mat4 inverse = glm::inverse(*this->getTransformMat());
     glm::mat4 inverse_transpose = glm::transpose(inverse);
 
-    p = p * inverse;
-    normal = normal * inverse_transpose;
+    p = inverse * p;
+    p[3] = 1;
+    normal = inverse_transpose * normal;
 
     return Intersection(p, glm::normalize(normal), t, this);
 }
